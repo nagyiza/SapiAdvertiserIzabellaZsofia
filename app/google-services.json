@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1066351805217",
+    "firebase_url": "https://sapiadvertiserizabellazsofia.firebaseio.com",
+    "project_id": "sapiadvertiserizabellazsofia",
+    "storage_bucket": "sapiadvertiserizabellazsofia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066351805217:android:55758e2f842bae96",
+        "android_client_info": {
+          "package_name": "ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066351805217-8cp8qmmvjvu4ct2ubq8ju660j69i18l8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia",
+            "certificate_hash": "777dbe1901cf3c8ada051770abb298144271d852"
+          }
+        },
+        {
+          "client_id": "1066351805217-6tjoojekdouooirhqsalm06utuim1tlq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiePJAnEE_oJTPUPpElc8Rj6zG9Ktwwyk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066351805217-6tjoojekdouooirhqsalm06utuim1tlq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
