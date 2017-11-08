@@ -16,11 +16,31 @@ public class MainActivity extends AppCompatActivity {
         //wait(1000);
         //this.setOnTouchListener(new () {
         //    @Override
-         //   public void onSwipingLeft(final MotionEvent event) {
-                Intent intent = new Intent(MainActivity.this, SignIn.class);
-                startActivity(intent);
-         //   }
+        //   public void onSwipingLeft(final MotionEvent event) {
+        Intent intent = new Intent(MainActivity.this, SignIn.class);
+        startActivity(intent);
+        //   }
         //});
+
+
+        // Write a message to the database
+        //try {
+        //    database = FirebaseDatabase.getInstance();
+        //    myRef = database.getReference();
+
+        //    myRef.child("izabella");
+        //    myRef.setValue("valami").addOnFailureListener(new OnFailureListener() {
+        //       @Override
+        //        public void onFailure(@NonNull Exception e) {
+        //           Log.d(LOG_TAG, e.getLocalizedMessage());
+        //       }
+        //   });
+        //   Toast.makeText(this,"success", Toast.LENGTH_LONG).show();
+
+        //}catch(Exception e){
+        //    Toast.makeText(this,"failed", Toast.LENGTH_LONG).show();
+
+        //}
 
     }
 }

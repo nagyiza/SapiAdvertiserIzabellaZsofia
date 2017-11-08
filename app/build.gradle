@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia"
         minSdkVersion 21
@@ -31,6 +31,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.0.1'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

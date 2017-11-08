@@ -2,5 +2,5 @@
     <string name="app_name">SapiAdvertiser</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="signin">Sign In</string>
+    <string name="signin">Sign In / Up</string>
 </resources>
