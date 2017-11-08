@@ -3,24 +3,22 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private Button mSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //wait(1000);
-        //this.setOnTouchListener(new () {
-        //    @Override
-        //   public void onSwipingLeft(final MotionEvent event) {
-        Intent intent = new Intent(MainActivity.this, SignIn.class);
-        startActivity(intent);
-        //   }
-        //});
+        mSignInButton = findViewById(R.id.signin);
+        // Click listeners
+        mSignInButton.setOnClickListener(this);
 
 
         // Write a message to the database
@@ -42,5 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
         //}
 
+    }
+
+    private  void signIn(){
+        Intent intent = new Intent(MainActivity.this, SignIn.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        switch (i) {
+            case R.id.signin:
+                signIn();
+                break;
+        }
     }
 }

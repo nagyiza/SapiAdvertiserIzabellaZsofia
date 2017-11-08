@@ -7,13 +7,21 @@
     android:id="@+id/screen"
     tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/sapilogo"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/sapilogo"
+       />
+
+    <Button
+        android:id="@+id/signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sapi Advertiser"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentBottom="true"
+        android:layout_gravity = "bottom"
+        android:text="@string/signin"/>
 
 </android.support.constraint.ConstraintLayout>
