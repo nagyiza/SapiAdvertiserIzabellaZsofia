@@ -24,6 +24,7 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
 public class SignIn extends BaseActivity implements View.OnClickListener{
 
+    
     private static final String LOG_TAG = "MainActivity";
     private DatabaseReference mDatabase;
     //the FirebaseAuth and AuthStateListener objects.
