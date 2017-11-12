@@ -1,6 +1,16 @@
 <resources>
-    <string name="app_name">SapiAdvertiser</string>
+    <string name="app_name">Sapi Advertiser</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="signin">Sign In / Up</string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="google_title_text">Google Sign In</string>
+
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
 </resources>

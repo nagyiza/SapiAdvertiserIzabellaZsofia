@@ -1,5 +1,6 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -26,6 +29,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
     
     private static final String LOG_TAG = "MainActivity";
+    private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase;
     //the FirebaseAuth and AuthStateListener objects.
     private FirebaseAuth mAuth;
@@ -35,6 +39,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     private Button mSignInButton;
     private Button mGoogleButton;
     private Button mFacebookButton;
+
+    private GoogleApiClient mGoogleApiClient;
 
 
 
@@ -57,8 +63,6 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
         mSignInButton.setOnClickListener(this);
         mGoogleButton.setOnClickListener(this);
         mFacebookButton.setOnClickListener(this);
-
-
 
     }
     @Override
@@ -191,7 +195,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     }
 
     private void googleSignIn() {
-
+        Intent signInIntent = new Intent(SignIn.this,GoogleSignInActivity.class);
+        startActivity(signInIntent);
     }
 
     private void facebookSignIn() {
