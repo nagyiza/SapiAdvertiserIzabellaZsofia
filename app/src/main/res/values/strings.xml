@@ -13,4 +13,12 @@
 
     <string name="facebook_status_fmt">Facebook User: %s</string>
     <string name="facebook_title_text">Facebook Login</string>
+
+    <string name="first_names">First Name</string>
+    <string name="last_names">Last Name</string>
+    <string name="phone_numbers">Phone Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="save">Save</string>
+    <string name="my_advertiserment">My Advertiserment</string>
+
 </resources>

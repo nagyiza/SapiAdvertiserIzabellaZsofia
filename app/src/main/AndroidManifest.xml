@@ -19,6 +19,7 @@
         <activity android:name=".SignIn" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
