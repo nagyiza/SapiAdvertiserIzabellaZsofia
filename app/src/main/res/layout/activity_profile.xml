@@ -11,14 +11,13 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/profile_picture"
+            android:id="@+id/profile_header"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/profile"
             android:background="@color/colorPrimary">
 
             <TextView
