@@ -7,36 +7,29 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class User {
-    public String username;
-    public String email;
-    public String FirstName;
-    public String LastName;
-    public String PhoneNumbers;
-    public String Password;
-    public String ConfirmPassword;
+    private String email;
+    private String FirstName;
+    private String LastName;
+    private String PhoneNumbers;
+    //private String Password;
+    //private String ConfirmPassword;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String email) {
-        this.username = username;
+    public User(String email, String last) {
         this.email = email;
-        this.FirstName = "";
-        this.LastName = "";
-        this.PhoneNumbers = "";
-        this.Password = "";
-        this.ConfirmPassword = "";
+        this.LastName = last;
+    }
+    public User(String email, String first, String last, String phone) {
+        this.email = email;
+        this.FirstName = first;
+        this.LastName = last;
+        this.PhoneNumbers = phone;
     }
 
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;
@@ -70,19 +63,19 @@ public class User {
         PhoneNumbers = phoneNumbers;
     }
 
-    public String getPassword() {
-        return Password;
-    }
+    //public String getPassword() {
+    //    return Password;
+    //}
 
-    public void setPassword(String password) {
-        Password = password;
-    }
+   // public void setPassword(String password) {
+    //    Password = password;
+    //}
 
-    public String getConfirmPassword() {
-        return ConfirmPassword;
-    }
+    //public String getConfirmPassword() {
+    //    return ConfirmPassword;
+    //}
 
-    public void setConfirmPassword(String confirmPassword) {
-        ConfirmPassword = confirmPassword;
-    }
+    //public void setConfirmPassword(String confirmPassword) {
+    //    ConfirmPassword = confirmPassword;
+    //}
 }

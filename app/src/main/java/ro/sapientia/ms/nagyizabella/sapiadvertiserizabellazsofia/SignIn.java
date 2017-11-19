@@ -28,7 +28,7 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 public class SignIn extends BaseActivity implements View.OnClickListener{
 
     
-    private static final String LOG_TAG = "MainActivity";
+    private static final String LOG_TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase;
     //the FirebaseAuth and AuthStateListener objects.
@@ -133,24 +133,22 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        String username = usernameFromEmail(user.getEmail());
-
-
+        //String username = usernameFromEmail(user.getEmail());
         // Write new user
-        writeNewUser(user.getUid(), username, user.getEmail());
+        writeNewUser(user.getUid(), user.getEmail());
 
         // Go to Next Activity
-        startActivity(new Intent(SignIn.this, ProfileActivity.class));
-        finish();
+        //startActivity(new Intent(SignIn.this, ProfileActivity.class));
+        //finish();
     }
 
-    private String usernameFromEmail(String email) {
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
-    }
+    //private String usernameFromEmail(String email) {
+    //    if (email.contains("@")) {
+    //        return email.split("@")[0];
+    //    } else {
+     //       return email;
+     //   }
+    //}
 
     private boolean validateForm() {
         boolean result = true;
@@ -172,8 +170,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     }
 
     // [START basic_write]
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(email);
+    private void writeNewUser(String userId, String email) {
+        User user = new User(email, "", "", "");
 
         mDatabase.child("users").child(userId).setValue(user);
     }
