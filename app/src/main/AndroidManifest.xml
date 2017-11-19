@@ -20,7 +20,8 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".CircleImageView"></activity>
+        <activity android:name=".CircleImageView" />
+        <activity android:name=".AddAdvertisementActivity"></activity>
     </application>
 
 </manifest>
