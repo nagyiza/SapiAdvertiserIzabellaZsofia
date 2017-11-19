@@ -92,7 +92,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
+                            //onAuthSuccess(task.getResult().getUser());
                             Toast.makeText(SignIn.this, "Sign In",
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -123,6 +123,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
                             onAuthSuccess(task.getResult().getUser());
                             Toast.makeText(SignIn.this, "Sign Up",
                                     Toast.LENGTH_SHORT).show();
+
                         } else {
                             Toast.makeText(SignIn.this, "Sign In and Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
@@ -133,6 +134,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
+
 
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
@@ -171,7 +173,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
     // [START basic_write]
     private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
+        User user = new User(email);
 
         mDatabase.child("users").child(userId).setValue(user);
     }
@@ -196,11 +198,14 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
     private void googleSignIn() {
         Intent signInIntent = new Intent(SignIn.this,GoogleSignInActivity.class);
+        signInIntent.putExtra("type", "google");
         startActivity(signInIntent);
     }
 
     private void facebookSignIn() {
-
+        Intent signInIntent = new Intent(SignIn.this,GoogleSignInActivity.class);
+        signInIntent.putExtra("type", "facebook");
+        startActivity(signInIntent);
     }
 
 }

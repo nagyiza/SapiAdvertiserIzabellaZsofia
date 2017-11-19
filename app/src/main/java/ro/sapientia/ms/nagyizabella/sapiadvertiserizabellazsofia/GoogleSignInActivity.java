@@ -35,6 +35,8 @@ public class GoogleSignInActivity extends BaseActivity implements
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+    private static final int RC_SIGN_IN_FACEBOOK = 9002;
+
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -89,7 +91,6 @@ public class GoogleSignInActivity extends BaseActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -104,6 +105,10 @@ public class GoogleSignInActivity extends BaseActivity implements
 
                 Intent back = new Intent(GoogleSignInActivity.this, SignIn.class);
                 startActivity(back);
+
+            }
+        }else{
+            if(requestCode == RC_SIGN_IN_FACEBOOK){
 
             }
         }
@@ -153,9 +158,26 @@ public class GoogleSignInActivity extends BaseActivity implements
 
     // [START signin]
     private void signIn() {
+        Intent intent = getIntent();
+        if(intent != null) {
+            String type = (String) intent.getExtras().getSerializable("type");
+            if (type.equals("google")) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
 
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+            }else{
+                if (type.equals("facebook")) {
+                    //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                    //startActivityForResult(signInIntent, RC_SIGN_IN_FACEBOOK);
+                }
+            }
+
+        }else{
+            Toast.makeText(GoogleSignInActivity.this, "Intent is null",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     // [END signin]
 
@@ -192,13 +214,20 @@ public class GoogleSignInActivity extends BaseActivity implements
         // Google sign out
 
 
-        //Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-        //        new ResultCallback<Status>() {
-        //            @Override
-        //           public void onResult(@NonNull Status status) {
-        //                back();
-        //            }
-        //        });
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                   public void onResult(@NonNull Status status) {
+                        back();
+                    }
+                });
+
+        //AuthUI.getInstance().signOut(this).addOnClompleteListener(new OnCompleteListener<>(){
+        //    @Override
+        //    public void onComplete(@NonNull Task task) {
+         //       finish();
+         //   }
+        //});
 
         back();
         Toast.makeText(GoogleSignInActivity.this,"Signed out", Toast.LENGTH_SHORT).show();
