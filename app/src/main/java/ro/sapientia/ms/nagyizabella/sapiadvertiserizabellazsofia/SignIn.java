@@ -138,8 +138,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
         writeNewUser(user.getUid(), username, user.getEmail());
 
         // Go to Next Activity
-        //startActivity(new Intent(SignIn.this, MainActivity.class));
-        //finish();
+        startActivity(new Intent(SignIn.this, ProfileActivity.class));
+        finish();
     }
 
     private String usernameFromEmail(String email) {
