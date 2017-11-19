@@ -18,27 +18,17 @@ public class User {
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
-/*
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-    */
 
     public User(String username, String email) {
         this.username = username;
         this.email = email;
+        this.FirstName = "";
+        this.LastName = "";
+        this.PhoneNumbers = "";
+        this.Password = "";
+        this.ConfirmPassword = "";
     }
 
-    public User(String username, String email, String firstName, String lastName, String phoneNumbers, String password, String confirmPassword) {
-        this.username = username;
-        this.email = email;
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.PhoneNumbers = phoneNumbers;
-        this.Password = password;
-        this.ConfirmPassword = confirmPassword;
-    }
 
     public String getUsername() {
         return username;

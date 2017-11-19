@@ -20,5 +20,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="save">Save</string>
     <string name="my_advertiserment">My Advertiserment</string>
-
+    <string name="circleView">Circle View</string>
 </resources>

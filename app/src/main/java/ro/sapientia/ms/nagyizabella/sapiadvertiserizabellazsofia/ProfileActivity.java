@@ -1,14 +1,23 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -31,10 +40,12 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText EditPhoneNumbers;
     private EditText EditPassword;
     private EditText EditConfirmPassword;
-/*
-    private Button Myadvertiserment;
-    private Button Save;
-*/
+
+    private Button MyadvertisermentButton;
+    private Button saveEditButton;
+
+    private ImageView profilePhoto;
+
     // Click listeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +63,20 @@ public class ProfileActivity extends AppCompatActivity {
         EditPassword = (EditText)findViewById(R.id.et_password);
         EditConfirmPassword = (EditText)findViewById(R.id.confirm_password);
 
-        Button saveEditButton = (Button)findViewById(R.id.bt_save);
-        Button MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
-
+        saveEditButton = (Button)findViewById(R.id.bt_save);
+        MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
+/*
+        profilePhoto = (ImageView)findViewById(R.id.circleView);
+        profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent,2000);
+            }
+        });
+        */
+        //*--------------------------------------------
 
         saveEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     String id = user.getUid();
 
-
-                   User userEntity = new User(id, profileEmail,profileFirstName, profileLastName, profilePhoneNumber, profilePassword, profileConfirmPassword);
-                  //  FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-                  //  firebaseDatabaseHelper.createUserInFirebaseDatabase(id, userEntity);
+              //      User userEntity = new User(id, profileEmail,profileFirstName, profileLastName, profilePhoneNumber, profilePassword, profileConfirmPassword);
 
                     EditEmail.setText("");
                     EditFistName.setText("");
@@ -86,11 +105,38 @@ public class ProfileActivity extends AppCompatActivity {
                     EditPassword.setText("");
                     EditConfirmPassword.setText("");
                 }
-
             }
 
         });
     }
+
+
+    private void onAuthSuccess(FirebaseUser user) {
+        String username = usernameFromEmail(user.getEmail());
+
+        // Write new user
+     // writeNewUser(user.getUid(),username,user.getEmail(),user.getFirstName(),user.getLastName(),user.getPhoneNumer(),user.getPassword(),user.getConfirmPassword());
+
+        // Go to Next Activity
+        //startActivity(new Intent(SignIn.this, MainActivity.class));
+        //finish();
+    }
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+
+    // [START basic_write]
+    private void writeNewUser(String userId,String profileEmail,String profileFirstName,String profileLastName,String profilePhoneNumber,String profilePassword,String profileConfirmPassword) {
+      //  User user = new User(userId, profileEmail,profileFirstName, profileLastName, profilePhoneNumber, profilePassword, profileConfirmPassword);
+
+      //  mDatabase.child("uj").child(userId).setValue(user);
+    }
+    // [END basic_write]
+
 
 
 }
