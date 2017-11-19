@@ -65,6 +65,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         saveEditButton = (Button)findViewById(R.id.bt_save);
         MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+        EditEmail.setText(mDatabase.child(id).child("email").toString());
+        EditFistName.setText(mDatabase.child(id).child("firstName").toString());
+        EditLastName.setText(mDatabase.child(id).child("lastName").toString());
+        EditPhoneNumbers.setText(mDatabase.child(id).child("phoneNumbers").toString());
+
+
 /*
         profilePhoto = (ImageView)findViewById(R.id.circleView);
         profilePhoto.setOnClickListener(new View.OnClickListener() {
@@ -90,20 +99,29 @@ public class ProfileActivity extends AppCompatActivity {
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null) {
-                    Intent firebaseUserIntent = new Intent(ProfileActivity.this,SignIn.class);
-                    startActivity(firebaseUserIntent);
-                    finish();
+                    Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
                 } else {
                     String id = user.getUid();
+                    if(profileEmail != null){
+                        mDatabase.child(id).child("email").setValue(profileEmail);
+                    }
 
-              //      User userEntity = new User(id, profileEmail,profileFirstName, profileLastName, profilePhoneNumber, profilePassword, profileConfirmPassword);
+                    if(profileFirstName != null){
+                        mDatabase.child(id).child("email").setValue(profileFirstName);
+                    }
 
-                    EditEmail.setText("");
-                    EditFistName.setText("");
-                    EditLastName.setText("");
-                    EditPhoneNumbers.setText("");
-                    EditPassword.setText("");
-                    EditConfirmPassword.setText("");
+                    if(profileLastName != null){
+                        mDatabase.child(id).child("email").setValue(profileLastName);
+                    }
+
+                    if(profilePhoneNumber != null){
+                        mDatabase.child(id).child("email").setValue(profilePhoneNumber);
+                    }
+
+                    if(profilePassword != null && profilePassword == profileConfirmPassword){
+                        //TODO password megvaltoztatasa
+                    }
+
                 }
             }
 

@@ -123,6 +123,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
                             onAuthSuccess(task.getResult().getUser());
                             Toast.makeText(SignIn.this, "Sign Up",
                                     Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignIn.this, ProfileActivity.class));
+                            finish();
 
                         } else {
                             Toast.makeText(SignIn.this, "Sign In and Sign Up Failed",
