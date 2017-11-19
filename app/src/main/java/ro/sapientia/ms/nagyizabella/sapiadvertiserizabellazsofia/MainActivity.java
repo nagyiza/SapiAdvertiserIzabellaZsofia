@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  void signIn(){
         Intent intent = new Intent(MainActivity.this, SignIn.class);
         startActivity(intent);
+        finish();
     }
 //-----------------------
 //-------------------

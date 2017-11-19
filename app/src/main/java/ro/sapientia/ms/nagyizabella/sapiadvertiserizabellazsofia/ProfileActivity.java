@@ -20,8 +20,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
@@ -68,10 +71,20 @@ public class ProfileActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
-        EditEmail.setText(mDatabase.child(id).child("email").toString());
-        EditFistName.setText(mDatabase.child(id).child("firstName").toString());
-        EditLastName.setText(mDatabase.child(id).child("lastName").toString());
-        EditPhoneNumbers.setText(mDatabase.child(id).child("phoneNumbers").toString());
+        mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                EditEmail.setText(dataSnapshot.child("email").getValue().toString());
+                EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
+                EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
+                EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
 
 
 /*
@@ -97,35 +110,43 @@ public class ProfileActivity extends AppCompatActivity {
                 String profilePassword = EditPassword.getText().toString();
                 String profileConfirmPassword = EditConfirmPassword.getText().toString();
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user == null) {
-                    Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
-                } else {
-                    String id = user.getUid();
-                    if(profileEmail != null){
-                        mDatabase.child(id).child("email").setValue(profileEmail);
-                    }
+                if(validate(profileEmail, profileFirstName, profileLastName, profilePhoneNumber)) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user == null) {
+                        Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String id = user.getUid();
+                        if (profileEmail != "") {
+                            //TODO authentifikalasnal is valtozzon meg
+                            mDatabase.child("users").child(id).child("email").setValue(profileEmail);
+                        }
 
-                    if(profileFirstName != null){
-                        mDatabase.child(id).child("email").setValue(profileFirstName);
-                    }
+                        if (profileFirstName != "") {
+                            mDatabase.child("users").child(id).child("firstName").setValue(profileFirstName);
+                        }
 
-                    if(profileLastName != null){
-                        mDatabase.child(id).child("email").setValue(profileLastName);
-                    }
+                        if (profileLastName != "") {
+                            mDatabase.child("users").child(id).child("lastName").setValue(profileLastName);
+                        }
 
-                    if(profilePhoneNumber != null){
-                        mDatabase.child(id).child("email").setValue(profilePhoneNumber);
-                    }
+                        if (profilePhoneNumber != "") {
+                            mDatabase.child("users").child(id).child("phoneNumbers").setValue(profilePhoneNumber);
+                        }
 
-                    if(profilePassword != null && profilePassword == profileConfirmPassword){
-                        //TODO password megvaltoztatasa
-                    }
+                        if (profilePassword != "" && profilePassword == profileConfirmPassword) {
+                            //TODO password megvaltoztatasa
+                        }
 
+                    }
                 }
             }
 
         });
+    }
+
+    private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
+        //TODO + toast
+        return true;
     }
 
 
