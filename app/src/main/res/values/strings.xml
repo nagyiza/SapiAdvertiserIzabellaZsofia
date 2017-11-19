@@ -21,4 +21,11 @@
     <string name="save">Save</string>
     <string name="my_advertiserment">My Advertiserment</string>
     <string name="circleView">Circle View</string>
+
+    <string name="adver_title">Title</string>
+    <string name="adver_text">Description</string>
+    <string name="adver_location">Select Location</string>
+    <string name="adver_image">Add Image</string>
+    <string name="text">Description,about the advertisement. Small text,few line. </string>
+
 </resources>

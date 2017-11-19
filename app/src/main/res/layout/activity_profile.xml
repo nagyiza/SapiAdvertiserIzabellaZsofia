@@ -121,6 +121,7 @@
             android:hint="PASSWORD"
             android:padding="10dp"
             android:textSize="10dp"
+            android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             />
 
@@ -133,6 +134,7 @@
             android:hint="CONFIRM PASSWORD"
             android:padding="10dp"
             android:textSize="10dp"
+            android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             />
 

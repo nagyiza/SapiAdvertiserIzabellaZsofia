@@ -1,9 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.AddAdvertisementActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/adver_header"
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:background="@color/colorMild">
+
+            <EditText
+                android:id="@+id/adver_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="18dp"
+                android:textSize="20dp"
+                android:text="Title"
+                android:textColor="@color/colorWhite"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adver_header2"
+            android:layout_below="@id/adver_header"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:background="@color/colorMild">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20dp"
+                android:text="@string/text"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <EditText
+                android:id="@+id/adver_text"
+                android:layout_below="@id/text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingTop="18dp"
+                android:textSize="15dp"
+                android:text=".............................................................................................................................................................................................................................................................................................................................................................................................................................................................................."
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorMild"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/adver_location"
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/adver_location"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/adver_header2"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:background="@color/colorMild"
+            android:layout_marginBottom="15dp"/>
+        <Button
+            android:id="@+id/adver_image"
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/adver_image"
+            android:layout_below="@id/adver_location"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:background="@color/colorMild"
+            android:layout_marginBottom="50dp"/>
+
+    </RelativeLayout>
+
+</ScrollView>
