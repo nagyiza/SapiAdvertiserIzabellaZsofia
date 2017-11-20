@@ -147,13 +147,48 @@ public class ProfileActivity extends AppCompatActivity {
 
         });
     }
-
+/*
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
-        //TODO + toast
+
+        String MobilePattern = "[0-9]{10}";
+        //String email1 = email.getText().toString().trim();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (name.length() > 25) {
+
+            Toast.makeText(getApplicationContext(), "pls enter less the 25 character in user name", Toast.LENGTH_SHORT).show();
+            return true;
+
+        } else if (name.length() == 0 || number.length() == 0 || email.length() ==
+                0 || subject.length() == 0 || message.length() == 0) {
+
+            Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if (email.getText().toString().matches(emailPattern)) {
+
+            //Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
+            return true;
+
+        } else if(!email.getText().toString().matches(emailPattern)) {
+
+            Toast.makeText(getApplicationContext(),"Please Enter Valid Email Address",Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if(number.getText().toString().matches(MobilePattern)) {
+
+            Toast.makeText(getApplicationContext(), "phone number is valid", Toast.LENGTH_SHORT).show();
+            return true;
+
+        } else if(!number.getText().toString().matches(MobilePattern)) {
+
+            Toast.makeText(getApplicationContext(), "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
-
-
+*/
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
 

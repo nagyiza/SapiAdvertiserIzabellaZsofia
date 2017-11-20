@@ -73,6 +73,7 @@
             android:hint="FIRST NAME"
             android:padding="10dp"
             android:textSize="10dp"
+            android:inputType="text"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/my_advertiserment"
             />
@@ -108,6 +109,7 @@
             android:layout_below="@id/et_email"
             android:hint="PHONE NUMBER"
             android:padding="10dp"
+            android:inputType="number"
             android:textSize="10dp"
             android:layout_centerHorizontal="true"
             />
