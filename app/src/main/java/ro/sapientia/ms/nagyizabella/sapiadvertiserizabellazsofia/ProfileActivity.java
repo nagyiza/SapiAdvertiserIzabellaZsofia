@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -138,6 +139,9 @@ public class ProfileActivity extends AppCompatActivity {
                         }
 
                     }
+                    Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AddAdvertisementActivity.class);
+                    startActivity(addAdvertisementIntent);
+                    finish();
                 }
             }
 

@@ -53,21 +53,26 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <ScrollView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+                <EditText
+                    android:id="@+id/adver_text"
+                    android:layout_below="@id/text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="18dp"
+                    android:textSize="15dp"
+                    android:hint=".............................................................................................................................................................................................................................................................................................................................................................................................................................................................................."
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorMild"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-            <EditText
-                android:id="@+id/adver_text"
-                android:layout_below="@id/text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:paddingTop="18dp"
-                android:textSize="15dp"
-                android:text=".............................................................................................................................................................................................................................................................................................................................................................................................................................................................................."
-                android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorMild"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </ScrollView>
+
 
         </LinearLayout>
 
@@ -98,6 +103,27 @@
             android:background="@color/colorMild"
             android:layout_marginBottom="50dp"/>
 
+        <ListView
+            android:id="@+id/list_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/add_adver"
+            android:layout_below="@id/adver_image" />
+
+
+        <Button
+            android:id="@+id/add_adver"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/add_adver"
+            android:layout_below="@id/adver_image"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:background="@color/colorMild"
+            android:layout_marginBottom="50dp"/>
     </RelativeLayout>
 
 </ScrollView>
