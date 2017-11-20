@@ -70,8 +70,11 @@ public class ProfileActivity extends AppCompatActivity {
         saveEditButton = (Button)findViewById(R.id.bt_save);
         MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
 
+//getCurrentUser to FireBase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
+
+//Modifying data on Database
         mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         if (profilePassword != "" && profilePassword == profileConfirmPassword) {
                             //TODO password megvaltoztatasa
+
                         }
 
                     }
@@ -147,43 +151,44 @@ public class ProfileActivity extends AppCompatActivity {
 
         });
     }
-    private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
-        return true;
-    }
-/*
+//Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
 
         String MobilePattern = "[0-9]{10}";
         //String email1 = email.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if (name.length() > 25) {
-
-            Toast.makeText(getApplicationContext(), "pls enter less the 25 character in user name", Toast.LENGTH_SHORT).show();
-            return true;
-
-        } else if (name.length() == 0 || number.length() == 0 || email.length() ==
-                0 || subject.length() == 0 || message.length() == 0) {
+        if (profileFirstName.length() > 15 || profileLastName.length() > 15) {
+            if (profileFirstName.length() > 15 ) {
+                Toast.makeText(getApplicationContext(), "pls enter less the 15 character in First Name", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (profileLastName.length() > 15 ) {
+                Toast.makeText(getApplicationContext(), "pls enter less the 15 character in Last Name", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else if (profileFirstName.length() == 0 || profileLastName.length() == 0 || profilePhoneNumber.length() == 0 || profileEmail.length() ==
+                0 ) {
 
             Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
             return false;
 
-        } else if (email.getText().toString().matches(emailPattern)) {
+        } else if (profileEmail.toString().matches(emailPattern)) {
 
             //Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
             return true;
 
-        } else if(!email.getText().toString().matches(emailPattern)) {
+        } else if(!profileEmail.toString().matches(emailPattern)) {
 
             Toast.makeText(getApplicationContext(),"Please Enter Valid Email Address",Toast.LENGTH_SHORT).show();
             return false;
 
-        } else if(number.getText().toString().matches(MobilePattern)) {
+        } else if(profilePhoneNumber.toString().matches(MobilePattern)) {
 
             Toast.makeText(getApplicationContext(), "phone number is valid", Toast.LENGTH_SHORT).show();
             return true;
 
-        } else if(!number.getText().toString().matches(MobilePattern)) {
+        } else if(!profilePhoneNumber.toString().matches(MobilePattern)) {
 
             Toast.makeText(getApplicationContext(), "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
             return false;
@@ -191,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         return true;
     }
-*/
+
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
 
