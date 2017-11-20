@@ -147,6 +147,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         });
     }
+    private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
+        return true;
+    }
 /*
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
 
