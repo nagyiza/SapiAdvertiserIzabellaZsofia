@@ -124,6 +124,10 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
                 mDatabase.child(key).setValue(adv);
                 mDatabase.child(key).child("photos");
 
+                Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
+                startActivity(intent);
+                finish();
+
             }else{
                 Toast.makeText(AddAdvertisementActivity.this, "The input is empty", Toast.LENGTH_SHORT).show();
             }

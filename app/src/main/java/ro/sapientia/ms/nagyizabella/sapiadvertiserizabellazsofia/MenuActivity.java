@@ -1,5 +1,6 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
+import android.os.Bundle;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -7,9 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -49,7 +48,7 @@ public class MenuActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_profile) {
-                    Fragment fragment = new Fragment();
+                    Fragment fragment = new MenuFragment();
                 } else if (id == R.id.nav_home) {
 
                 } else if (id == R.id.nav_profile) {
