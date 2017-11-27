@@ -21,11 +21,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGuestButton = findViewById(R.id.guest);
         // Click listeners
         mSignInButton.setOnClickListener(this);
-
-        Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
-        startActivity(intentmenu);
-
         mGuestButton.setOnClickListener(this);
+
+        //Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
+        //startActivity(intentmenu);
+
+
+
         // Write a message to the database
         //try {
         //    database = FirebaseDatabase.getInstance();
