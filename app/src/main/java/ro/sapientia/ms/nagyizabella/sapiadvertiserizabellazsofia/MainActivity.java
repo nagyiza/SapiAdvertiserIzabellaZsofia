@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Click listeners
         mSignInButton.setOnClickListener(this);
 
-
+        Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
+        startActivity(intentmenu);
         // Write a message to the database
         //try {
         //    database = FirebaseDatabase.getInstance();

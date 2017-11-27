@@ -21,7 +21,12 @@
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CircleImageView" />
-        <activity android:name=".AddAdvertisementActivity"></activity>
+        <activity android:name=".AddAdvertisementActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity
+            android:name=".activity_menu"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

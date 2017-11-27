@@ -28,5 +28,21 @@
     <string name="adver_image">Add Image</string>
     <string name="text">Description,about the advertisement. Small text,few line. </string>
     <string name="add_adver">Add advertisement</string>
+    <!--Menu-->
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_alladvert">Advertisement</string>
+    <string name="menu_myadvert">My Advertisement</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_menu">activity_menu</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>

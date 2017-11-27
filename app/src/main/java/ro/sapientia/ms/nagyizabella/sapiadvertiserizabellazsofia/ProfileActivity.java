@@ -50,6 +50,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profilePhoto;
 
+    public ProfileActivity() {
+    }
+
     // Click listeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +90,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
 
 
 /*
@@ -222,7 +223,5 @@ public class ProfileActivity extends AppCompatActivity {
       //  mDatabase.child("uj").child(userId).setValue(user);
     }
     // [END basic_write]
-
-
 
 }
