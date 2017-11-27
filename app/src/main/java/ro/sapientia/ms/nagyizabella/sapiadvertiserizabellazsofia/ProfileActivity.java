@@ -1,24 +1,14 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ThemedSpinnerAdapter;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -143,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
 
                     }
-                    Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AddAdvertisementActivity.class);
+                    Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
                     startActivity(addAdvertisementIntent);
                     finish();
                 }
@@ -204,7 +192,7 @@ public class ProfileActivity extends AppCompatActivity {
      // writeNewUser(user.getUid(),username,user.getEmail(),user.getFirstName(),user.getLastName(),user.getPhoneNumer(),user.getPassword(),user.getConfirmPassword());
 
         // Go to Next Activity
-        //startActivity(new Intent(SignIn.this, MainActivity.class));
+        //startActivity(new Intent(SignInActivity.this, MainActivity.class));
         //finish();
     }
     private String usernameFromEmail(String email) {

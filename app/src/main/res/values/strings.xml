@@ -28,5 +28,7 @@
     <string name="adver_image">Add Image</string>
     <string name="text">Description,about the advertisement. Small text,few line. </string>
     <string name="add_adver">Add advertisement</string>
+    <string name="list_of_advertisement">List of advertisement</string>
+    <string name="anonymus">Guest</string>
 
 </resources>

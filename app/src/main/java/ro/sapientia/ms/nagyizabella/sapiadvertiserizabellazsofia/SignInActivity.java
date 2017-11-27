@@ -21,9 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
-public class SignIn extends BaseActivity implements View.OnClickListener{
+public class SignInActivity extends BaseActivity implements View.OnClickListener{
 
-    
+
     private static final String LOG_TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase;
@@ -43,7 +43,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_signin);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -89,9 +89,9 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
                         if (task.isSuccessful()) {
                             //onAuthSuccess(task.getResult().getUser());
-                            Toast.makeText(SignIn.this, "Sign In",
+                            Toast.makeText(SignInActivity.this, "Sign In",
                                     Toast.LENGTH_SHORT).show();
-                            Intent profileIntent = new Intent(SignIn.this, AddAdvertisementActivity.class);
+                            Intent profileIntent = new Intent(SignInActivity.this, AdvertisementListActivity.class);
                             startActivity(profileIntent);
                             finish();
                         } else {
@@ -120,14 +120,14 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
 
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
-                            Toast.makeText(SignIn.this, "Sign Up",
+                            Toast.makeText(SignInActivity.this, "Sign Up",
                                     Toast.LENGTH_SHORT).show();
-                            Intent profileIntent = new Intent(SignIn.this, ProfileActivity.class);
+                            Intent profileIntent = new Intent(SignInActivity.this, ProfileActivity.class);
                             startActivity(profileIntent);
                             finish();
 
                         } else {
-                            Toast.makeText(SignIn.this, "Sign In and Sign Up Failed",
+                            Toast.makeText(SignInActivity.this, "Sign In and Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -140,7 +140,7 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
         writeNewUser(user.getUid(), user.getEmail());
 
         // Go to Next Activity
-        //startActivity(new Intent(SignIn.this, ProfileActivity.class));
+        //startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
         //finish();
     }
 
@@ -148,8 +148,8 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     //    if (email.contains("@")) {
     //        return email.split("@")[0];
     //    } else {
-     //       return email;
-     //   }
+    //       return email;
+    //   }
     //}
 
     private boolean validateForm() {
@@ -197,15 +197,14 @@ public class SignIn extends BaseActivity implements View.OnClickListener{
     }
 
     private void googleSignIn() {
-        Intent signInIntent = new Intent(SignIn.this,GoogleSignInActivity.class);
+        Intent signInIntent = new Intent(SignInActivity.this,GoogleSignInActivity.class);
         signInIntent.putExtra("type", "google");
         startActivity(signInIntent);
     }
 
     private void facebookSignIn() {
-        Intent signInIntent = new Intent(SignIn.this,GoogleSignInActivity.class);
-        signInIntent.putExtra("type", "facebook");
-        startActivity(signInIntent);
+        //Intent signInIntent = new Intent(SignInActivity.this,GoogleSignInActivity.class);
+        //signInIntent.putExtra("type", "facebook");
+        //startActivity(signInIntent);
     }
-
 }

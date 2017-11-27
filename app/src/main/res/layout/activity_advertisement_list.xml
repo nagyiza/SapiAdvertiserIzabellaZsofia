@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.AdvertisementListActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_of_advertisement"
+            android:textSize="30sp"
+            android:gravity="center"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_advertisement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_title"
+            android:scrollbars="vertical" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right|bottom"
+        >
+    <TextView
+        android:id="@+id/tv_new"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="+"
+        android:textSize="50sp"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

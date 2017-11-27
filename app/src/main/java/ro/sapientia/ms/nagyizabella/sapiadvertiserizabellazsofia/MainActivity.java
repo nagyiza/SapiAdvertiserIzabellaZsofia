@@ -7,9 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button mSignInButton;
+    private Button mGuestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +18,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mSignInButton = findViewById(R.id.signin);
+        mGuestButton = findViewById(R.id.guest);
         // Click listeners
         mSignInButton.setOnClickListener(this);
-
+        mGuestButton.setOnClickListener(this);
 
         // Write a message to the database
         //try {
@@ -42,13 +44,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private  void signIn(){
-        Intent intent = new Intent(MainActivity.this, SignIn.class);
+    private void signIn() {
+        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
         finish();
     }
-//-----------------------
-//-------------------
+
+    private void guest() {
+        Intent intent = new Intent(MainActivity.this, AdvertisementListActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onClick(View v) {
@@ -58,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.signin:
                 signIn();
                 break;
+            case R.id.guest:
+                guest();
+                break;
         }
     }
 }
+

@@ -113,14 +113,16 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
         } else {
             if(title.length() != 0 && detail.length() != 0) {
                 String id = user.getUid();
-                Advertisement adv = new Advertisement(title, detail, "",id);
 
                 mDatabase = FirebaseDatabase.getInstance().getReference("advertisements");
                 String key =  mDatabase.push().getKey();
-                mDatabase.child(key).setValue(adv);
+
                 //save image's download uri in database
                 //TODO
                 ImageSave(imageURIs, key);
+                Advertisement adv = new Advertisement(title, detail, "",id, downloadUri);
+                mDatabase.child(key).setValue(adv);
+                mDatabase.child(key).child("photos");
 
             }else{
                 Toast.makeText(AddAdvertisementActivity.this, "The input is empty", Toast.LENGTH_SHORT).show();
@@ -237,7 +239,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
     private void ImageSave(ArrayList<Uri> mImageUri, String advertisementKey) {
         uploadFromUri(mImageUri, advertisementKey);
     }
-
+    List<Uri> downloadUri = new ArrayList<Uri>();
     private void uploadFromUri(ArrayList<Uri> fileUri, final String advertisementKey) {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -255,7 +257,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(AddAdvertisementActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
                     //TODO
-                    //mDatabase.child(advertisementKey).child("photos").child(taskSnapshot.toString());
+                    downloadUri.add(taskSnapshot.getMetadata().getDownloadUrl());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -263,8 +265,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
                     Toast.makeText(AddAdvertisementActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
+
     }
 }

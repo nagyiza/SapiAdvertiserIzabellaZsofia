@@ -18,12 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignIn" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CircleImageView" />
-        <activity android:name=".AddAdvertisementActivity"></activity>
+        <activity android:name=".AddAdvertisementActivity" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".AdvertisementListActivity"></activity>
     </application>
 
 </manifest>
