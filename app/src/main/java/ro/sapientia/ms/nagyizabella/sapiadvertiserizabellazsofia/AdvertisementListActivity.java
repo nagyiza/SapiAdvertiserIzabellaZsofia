@@ -17,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters.RecyclerViewAdapter;
@@ -62,7 +61,7 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
         recyclerView.setLayoutManager(layoutManager);
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
 
-        mAdapter = new RecyclerViewAdapter(advertisements, photo);
+        mAdapter = new RecyclerViewAdapter(advertisements);
         recyclerView.setAdapter(mAdapter);
 
         LoadAdvertisement();
@@ -73,7 +72,20 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //firebaseElements.add((ArrayList<String>) dataSnapshot.getValue());
-                Object o = dataSnapshot.getValue();
+
+                for (DataSnapshot adventisementKey : dataSnapshot.getChildren()) {
+                    String title = (String) adventisementKey.child("title").getValue();
+                    String detail = (String) adventisementKey.child("detail").getValue();
+                    String user = (String) adventisementKey.child("userId").getValue();
+                    ArrayList<String> photos = (ArrayList<String>) adventisementKey.child("photo").getValue();
+                    //for (DataSnapshot ds : adventisementKey.child("photos").getChildren()) {
+                    //    photos.add((String) ds.getValue());
+                    //}
+                    Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                    advertisements.add(adv);
+                }
+
+                /*Object o = dataSnapshot.getValue();
                 HashMap<String, HashMap<String,String>> hm = (HashMap<String, HashMap<String,String>>) o;
 
                 Object advertisemenetItem;
@@ -86,10 +98,10 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
                     Object user = hm2.get("userId");
                     Object photos = hm2.get("photos");
 
-                    //TODO photo
-                    Advertisement adv = new Advertisement(title.toString(),detail.toString(), "", user.toString(), (List<Uri>)photos);
-                    advertisements.add(adv);
 
+                    Advertisement adv = new Advertisement(title.toString(),detail.toString(), "", user.toString(), (List<String>)photos);
+                    advertisements.add(adv);
+                    */
                     //photo
                     //mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -112,10 +124,10 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
                     }
                     */
 
-                }
-                mAdapter.notifyDataSetChanged();
-                //Advertisement advertisement = new Advertisement(element.get(0),"","","","");
-                //notifyDataSetChanged();
+                //}
+                //mAdapter.notifyDataSetChanged();
+                mAdapter = new RecyclerViewAdapter(advertisements);
+                recyclerView.setAdapter(mAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -140,5 +152,6 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
     private void newAdvertisement() {
         Intent signInIntent = new Intent(AdvertisementListActivity.this, AddAdvertisementActivity.class);
         startActivity(signInIntent);
+        finish();
     }
 }

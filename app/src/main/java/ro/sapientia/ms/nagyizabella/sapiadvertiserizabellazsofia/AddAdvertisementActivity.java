@@ -38,6 +38,11 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
 
     private int RESULT_LOAD_IMAGE = 1;
 
+
+    public String title;
+    public String detail;
+    public String id;
+
     private DatabaseReference mDatabase;
     //the FirebaseAuth and AuthStateListener objects.
     private FirebaseAuth mAuth;
@@ -66,6 +71,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advertisement);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -104,29 +110,21 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
     }
 
     private void AddAdvertisement() {
-        String title = EditTitle.getText().toString();
-        String detail = EditDetail.getText().toString();
+        title = EditTitle.getText().toString();
+        detail = EditDetail.getText().toString();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(AddAdvertisementActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
         } else {
             if(title.length() != 0 && detail.length() != 0) {
-                String id = user.getUid();
+                id = user.getUid();
 
                 mDatabase = FirebaseDatabase.getInstance().getReference("advertisements");
-                String key =  mDatabase.push().getKey();
 
                 //save image's download uri in database
-                //TODO
-                ImageSave(imageURIs, key);
-                Advertisement adv = new Advertisement(title, detail, "",id, downloadUri);
-                mDatabase.child(key).setValue(adv);
-                mDatabase.child(key).child("photos");
+                ImageSave(imageURIs);
 
-                Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
-                startActivity(intent);
-                finish();
 
             }else{
                 Toast.makeText(AddAdvertisementActivity.this, "The input is empty", Toast.LENGTH_SHORT).show();
@@ -240,28 +238,41 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
 
     }
 
-    private void ImageSave(ArrayList<Uri> mImageUri, String advertisementKey) {
-        uploadFromUri(mImageUri, advertisementKey);
+    private void ImageSave(ArrayList<Uri> mImageUri) {
+        uploadFromUri(mImageUri);
     }
-    List<Uri> downloadUri = new ArrayList<Uri>();
-    private void uploadFromUri(ArrayList<Uri> fileUri, final String advertisementKey) {
+    List<String> downloadUri = new ArrayList<String>();
+    int counter;
+    private void uploadFromUri(final ArrayList<Uri> fileUri) {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        this.adventisementKey = advertisementKey;
+        counter = 1;
+        final String key =  mDatabase.push().getKey();
         for (Uri photoUri: fileUri)
         {
             // [START get_child_ref]
             // Get a reference to store file at photos/<FILENAME>.jpg
 
-            final StorageReference photoRef = mStorageRef.child("AdvertisementPhotos").child(advertisementKey).child(photoUri.getLastPathSegment());
+            final StorageReference photoRef = mStorageRef.child("AdvertisementPhotos").child(key).child(photoUri.getLastPathSegment());
             // [END get_child_ref]
 
             photoRef.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(AddAdvertisementActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
-                    //TODO
-                    downloadUri.add(taskSnapshot.getMetadata().getDownloadUrl());
+
+                    downloadUri.add(taskSnapshot.getDownloadUrl().toString());
+
+                    if(counter == fileUri.size()) {
+                        Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+                        mDatabase.child(key).setValue(adv);
+
+                        Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    counter++;
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -270,6 +281,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
                 }
             });
         }
+
 
     }
 }

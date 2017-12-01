@@ -1,12 +1,14 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -19,7 +21,9 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertis
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<Advertisement> values;
-    private List<Uri> photos = null;
+
+    private LayoutInflater inflater;
+    //private List<Uri> photos = null;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -51,9 +55,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerViewAdapter(List<Advertisement> myDataset, List<Uri> photo) {
+    public RecyclerViewAdapter(List<Advertisement> myDataset) {
         values = myDataset;
-        this.photos = photo;
     }
 
     // Create new views (invoked by the layout manager)
@@ -61,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
-        LayoutInflater inflater = LayoutInflater.from(
+        inflater = LayoutInflater.from(
                 parent.getContext());
         View v =
                 inflater.inflate(R.layout.advertisement_item , parent, false);
@@ -86,7 +89,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         holder.txtDetail.setText(name.getDetail());
-        //holder.mImageView.setImageURI(photos.get(position));
+        List<String> photos = values.get(position).getPhoto();
+        Log.d("GLIDE", "Glide elott");
+        if(photos != null) {
+            Glide.with(inflater.getContext()).load(photos.get(0))
+                    .override(400, 200)
+                    .into(holder.mImageView);
+            Log.d("GLIDE", photos.get(0));
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
