@@ -2,6 +2,8 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +15,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private Button mSignInButton;
     private Button mGuestButton;
+
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 /*
-
         Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(intentmenu);
 */
@@ -53,6 +57,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         //}
 
     }
+
+
 
     private void signIn() {
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);

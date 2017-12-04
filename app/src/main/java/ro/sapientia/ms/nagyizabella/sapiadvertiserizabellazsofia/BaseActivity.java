@@ -1,13 +1,10 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
+    public FirebaseAuth.AuthStateListener mAuthListener;
 
     public void showProgressDialog() {
         if (mProgressDialog == null) {
@@ -37,6 +35,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     //MENU
+
+
+
+    /*
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
@@ -80,10 +82,44 @@ public class BaseActivity extends AppCompatActivity {
                     Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
                 }
                 break;
+            case "Sign out":
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if(currentUser != null){
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(BaseActivity.this, "Sign out", Toast.LENGTH_LONG).show();
+                    intent = new Intent(BaseActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
+                }
             //default:break;
         }
         Log.d("MENU", item.toString());
         return true;
+    }
+*/
+    public void isUserCurrentlyLogin(final Context context){
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(null != user){
+                    Intent profileIntent = new Intent(context, MenuActivity.class);
+                    context.startActivity(profileIntent);
+                }else{
+                    Intent loginIntent = new Intent(context, SignInActivity.class);
+                    context.startActivity(loginIntent);
+                }
+            }
+        };
+    }
+    public FirebaseAuth firebaseAuth;
+    public void checkUserLogin(final Context context){
+        if(firebaseAuth.getCurrentUser() != null){
+            Intent profileIntent = new Intent(context, MenuActivity.class);
+            context.startActivity(profileIntent);
+        }
     }
 
 }

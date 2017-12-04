@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -14,8 +12,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -23,13 +19,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+
+import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
 public class GoogleSignInActivity extends BaseActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener
+        GoogleApiClient.OnConnectionFailedListener
 {
 
-    private Button mSignOutButton;
+    private DatabaseReference mDatabase;
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -47,10 +45,6 @@ public class GoogleSignInActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google);
-
-        mSignOutButton = findViewById(R.id.bt_signout);
-        mSignOutButton.setOnClickListener(this);
-
 
         // [START config_signin]
         // Configure Google Sign In
@@ -137,9 +131,20 @@ public class GoogleSignInActivity extends BaseActivity implements
                             Toast.makeText(GoogleSignInActivity.this, "Sign in with google",
                                     Toast.LENGTH_SHORT).show();
 
+                            try {
+                                User userModel = new User(user.getEmail(), "", "", "");
+
+                                mDatabase.child("users").child(user.getUid()).setValue(user);
+                            }catch (NullPointerException e){
+                                Log.d("GOOGLE",e.getMessage());
+                            }
 
                             //next activity
-                            findViewById(R.id.bt_signout).setVisibility(View.VISIBLE);
+                            Intent profileIntent = new Intent(GoogleSignInActivity.this, AdvertisementListActivity.class);
+                            profileIntent.putExtra("Type", "allAdvertisement");
+                            startActivity(profileIntent);
+                            finish();
+                            //findViewById(R.id.bt_signout).setVisibility(View.VISIBLE);
 
 
                         } else {
@@ -200,23 +205,9 @@ public class GoogleSignInActivity extends BaseActivity implements
         startActivity(intent);
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-
-        switch (i) {
-            case R.id.bt_signout:
-                signOut();
-                break;
-        }
-    }
-
-    private void signOut() {
-
+    /*private void signOut() {
         FirebaseAuth.getInstance().signOut();
         // Google sign out
-
-
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -224,18 +215,10 @@ public class GoogleSignInActivity extends BaseActivity implements
                         back();
                     }
                 });
-
-        //AuthUI.getInstance().signOut(this).addOnClompleteListener(new OnCompleteListener<>(){
-        //    @Override
-        //    public void onComplete(@NonNull Task task) {
-         //       finish();
-         //   }
-        //});
-
         back();
         Toast.makeText(GoogleSignInActivity.this,"Signed out", Toast.LENGTH_SHORT).show();
 
-    }
+    }*/
 
 }
 

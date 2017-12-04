@@ -17,8 +17,12 @@
             android:title="@string/menu_alladvert" />
         <item
             android:id="@+id/nav_myadvert"
-            android:icon="@drawable/ic_menu_add"
+            android:icon="@drawable/ic_menu_all_advertisement"
             android:title="@string/menu_myadvert" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="@string/menu_signout" />
     </group>
 
  <!--   <item android:title="Settings">

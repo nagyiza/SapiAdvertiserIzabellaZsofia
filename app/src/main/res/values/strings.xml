@@ -47,5 +47,6 @@
 
     <string name="list_of_advertisement">List of advertisement</string>
     <string name="anonymus">Guest</string>
+    <string name="menu_signout">Sign out</string>
 
 </resources>
