@@ -13,6 +13,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private Button mSignInButton;
     private Button mGuestButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
