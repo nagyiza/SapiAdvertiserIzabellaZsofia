@@ -2,12 +2,18 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -76,10 +82,10 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
+
         });
 
 
-/*
         profilePhoto = (ImageView)findViewById(R.id.circleView);
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +95,7 @@ public class ProfileActivity extends BaseActivity {
                 startActivityForResult(galleryIntent,2000);
             }
         });
-        */
+
         //*--------------------------------------------
 
         saveEditButton.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +105,11 @@ public class ProfileActivity extends BaseActivity {
                 String profileFirstName = EditFistName.getText().toString();
                 String profileLastName = EditLastName.getText().toString();
                 String profilePhoneNumber = EditPhoneNumbers.getText().toString();
-                String profilePassword = EditPassword.getText().toString();
+                final String profilePassword = EditPassword.getText().toString();
                 String profileConfirmPassword = EditConfirmPassword.getText().toString();
 
                 if(validate(profileEmail, profileFirstName, profileLastName, profilePhoneNumber)) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                   final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user == null) {
                         Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
                     } else {
@@ -126,7 +132,32 @@ public class ProfileActivity extends BaseActivity {
                         }
 
                         if (profilePassword != "" && profilePassword == profileConfirmPassword) {
+
                             //TODO password megvaltoztatasa
+                            AuthCredential credential = EmailAuthProvider.getCredential("user@example.com", "password1234");
+                            final String email = user.getEmail();
+
+                            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        user.updatePassword(profilePassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(!task.isSuccessful()){
+                                                    Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+
+                                                }else {
+                                                    Toast.makeText(getApplicationContext(), "Password Successfully Modified", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }
+                                        });
+                                    }else {
+                                        Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
                         }
 
@@ -136,9 +167,11 @@ public class ProfileActivity extends BaseActivity {
                     startActivity(addAdvertisementIntent);
                     finish();
                 }
+
             }
 
         });
+
         MyadvertisermentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +183,8 @@ public class ProfileActivity extends BaseActivity {
         });
 
     }
+
+
 //Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
 
@@ -172,25 +207,18 @@ public class ProfileActivity extends BaseActivity {
             Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
             return false;
 
-        } else if (profileEmail.toString().matches(emailPattern)) {
+        }
 
-            //Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
-            return true;
-
-        } else if(!profileEmail.toString().matches(emailPattern)) {
+         else if(!profileEmail.toString().matches(emailPattern)) {
 
             Toast.makeText(getApplicationContext(),"Please Enter Valid Email Address",Toast.LENGTH_SHORT).show();
             return false;
-
-        } else if(profilePhoneNumber.toString().matches(MobilePattern)) {
-
-            Toast.makeText(getApplicationContext(), "phone number is valid", Toast.LENGTH_SHORT).show();
-            return true;
 
         } else if(!profilePhoneNumber.toString().matches(MobilePattern)) {
 
             Toast.makeText(getApplicationContext(), "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
             return false;
+
         }
 
         return true;

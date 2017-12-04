@@ -8,7 +8,6 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private Button mSignInButton;
@@ -49,7 +48,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         //}catch(Exception e){
         //    Toast.makeText(this,"failed", Toast.LENGTH_LONG).show();
-
         //}
 
     }
