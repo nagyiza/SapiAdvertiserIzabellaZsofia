@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button mSignInButton;
     private Button mGuestButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSignInButton.setOnClickListener(this);
         mGuestButton.setOnClickListener(this);
 
-        //Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
-        //startActivity(intentmenu);
 
+/*
+
+        Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
+        startActivity(intentmenu);
+*/
 
 
         // Write a message to the database

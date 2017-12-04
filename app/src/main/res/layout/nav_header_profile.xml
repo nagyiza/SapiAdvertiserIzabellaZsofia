@@ -11,20 +11,20 @@
     android:paddingTop="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <!-- <de.hdodenhof.circleimageview.CircleImageView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
+     <de.hdodenhof.circleimageview.CircleImageView
+         android:layout_width="120dp"
+         android:layout_height="120dp"
          android:layout_gravity="center"
-         android:layout_marginTop="@dimen/_8sdp"
-         android:src="@drawable/small_profile_image"
+         android:layout_marginTop="55dp"
+         android:src="@drawable/profile"
          android:id="@+id/circleView"/>
- -->
+
      <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:paddingTop="21.60dp"
-         android:textSize="38.40dp"
-         android:text="@string/last_names"
+         android:paddingTop="1.60dp"
+         android:textSize="25.40dp"
+         android:text="@string/menu_profile"
          android:layout_gravity="center"
          android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -36,4 +36,13 @@
          android:layout_gravity="center"
          android:layout_marginTop="19.20dp"
          android:text="@string/phone_numbers" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/profile_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:scrollbars="none"/>
+
  </LinearLayout>

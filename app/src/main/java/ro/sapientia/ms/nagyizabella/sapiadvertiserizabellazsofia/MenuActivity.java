@@ -7,37 +7,40 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Toast;
 public class MenuActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private Fragment fragment = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-      /*  //SET my own toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+     //SET my own toolbar
+       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-*/
+
 
         fragmentManager = getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
        //--------------------
-      //  Fragment fragment =new Fragment();
-       // fragmentTransaction.replace(R.id.fragment_content, fragment);
-       // fragmentTransaction.commit();
+      Fragment fragment =new MenuFragment();
+      // fragmentTransaction.replace(R.id.fragment_content, fragment);
+      // fragmentTransaction.commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         disableNavigationViewScrollbars(navigationView);
@@ -48,17 +51,15 @@ public class MenuActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_profile) {
-                    Fragment fragment = new MenuFragment();
+                   Fragment fragment = new MenuFragment();
+                    Toast.makeText(MenuActivity.this,"MyProfile",Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_home) {
-
-                } else if (id == R.id.nav_profile) {
-
-                } else if (id == R.id.nav_alladvert) {
-
+                    Toast.makeText(MenuActivity.this,"Home",Toast.LENGTH_SHORT);
                 } else if (id == R.id.nav_myadvert) {
-
+                    Toast.makeText(MenuActivity.this,"MyAdvertiserment",Toast.LENGTH_SHORT);
+                } else if (id == R.id.nav_alladvert) {
+                    Toast.makeText(MenuActivity.this, "AllAdvertiserment", Toast.LENGTH_SHORT);
                 }
-               // else if (id == R.id.nav_logout) {}
 
                // FragmentTransaction transaction = fragmentManager.beginTransaction();
               //  transaction.replace(R.id.main_container_wrapper, fragment);
