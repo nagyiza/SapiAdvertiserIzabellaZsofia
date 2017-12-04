@@ -3,12 +3,14 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +24,9 @@ import java.util.List;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters.RecyclerViewAdapter;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
 
-public class AdvertisementListActivity extends AppCompatActivity implements View.OnClickListener{
+public class AdvertisementListActivity extends BaseActivity implements View.OnClickListener{
+
+    private String type; // all or my advertisement
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -43,6 +47,12 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advertisement_list);
+
+        Intent intent = getIntent();
+        type = (String) intent.getExtras().getSerializable("Type");
+        if(type == null){
+            type = "allAdvertisement";
+        }
 
         newTextView = (TextView) findViewById(R.id.tv_new);
         newTextView.setOnClickListener(this);
@@ -65,6 +75,8 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
         recyclerView.setAdapter(mAdapter);
 
         LoadAdvertisement();
+
+
     }
 
     private void LoadAdvertisement() {
@@ -81,51 +93,27 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
                     //for (DataSnapshot ds : adventisementKey.child("photos").getChildren()) {
                     //    photos.add((String) ds.getValue());
                     //}
-                    Advertisement adv = new Advertisement(title, detail, "", user, photos);
-                    advertisements.add(adv);
+                    if(type.equals("myAdvertisement")){
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if(currentUser == null){
+                            Toast.makeText(AdvertisementListActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(AdvertisementListActivity.this, SignInActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            if (currentUser.getUid().toString().equals(user)) {
+                                Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                                advertisements.add(adv);
+                            }
+                        }
+                    }else{ // all advertisement
+                        Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                        advertisements.add(adv);
+                    }
+
                 }
 
-                /*Object o = dataSnapshot.getValue();
-                HashMap<String, HashMap<String,String>> hm = (HashMap<String, HashMap<String,String>>) o;
 
-                Object advertisemenetItem;
-                for (Object obj : hm.keySet()) {
-                    advertisemenetItem = hm.get(obj.toString());
-                    HashMap<String, HashMap<String,String>> hm2 = (HashMap<String, HashMap<String,String>>) advertisemenetItem;
-
-                    Object title = hm2.get("title");
-                    Object detail = hm2.get("detail");
-                    Object user = hm2.get("userId");
-                    Object photos = hm2.get("photos");
-
-
-                    Advertisement adv = new Advertisement(title.toString(),detail.toString(), "", user.toString(), (List<String>)photos);
-                    advertisements.add(adv);
-                    */
-                    //photo
-                    //mStorageRef = FirebaseStorage.getInstance().getReference();
-
-                    //Uri uris =  mStorageRef.child("AdvertisementPhotos").child(obj.toString()).getDownloadUrl();
-                    //photo.add(uris);
-                    //String ss= "";
-                    /*
-                    try {
-                        final File localFile = File.createTempFile("images", "jpg");
-                        mStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                                String s = "";
-                            }
-                        });
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    */
-
-                //}
-                //mAdapter.notifyDataSetChanged();
                 mAdapter = new RecyclerViewAdapter(advertisements);
                 recyclerView.setAdapter(mAdapter);
             }
@@ -150,8 +138,16 @@ public class AdvertisementListActivity extends AppCompatActivity implements View
     }
 
     private void newAdvertisement() {
-        Intent signInIntent = new Intent(AdvertisementListActivity.this, AddAdvertisementActivity.class);
-        startActivity(signInIntent);
-        finish();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser != null){
+            Intent signInIntent = new Intent(AdvertisementListActivity.this, AddAdvertisementActivity.class);
+            startActivity(signInIntent);
+            finish();
+        }else{
+            Intent signInIntent = new Intent(AdvertisementListActivity.this, SignInActivity.class);
+            startActivity(signInIntent);
+            finish();
+        }
+
     }
 }

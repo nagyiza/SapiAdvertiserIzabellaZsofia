@@ -98,6 +98,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                 firebaseAuthWithGoogle(account);
 
                 Intent profileIntent = new Intent(GoogleSignInActivity.this, AdvertisementListActivity.class);
+                profileIntent.putExtra("Type", "allAdvertisement");
                 startActivity(profileIntent);
                 finish();
             } else {

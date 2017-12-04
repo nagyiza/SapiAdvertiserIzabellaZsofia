@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +31,7 @@ import java.util.List;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters.AddImageAdapter;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
 
-public class AddAdvertisementActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddAdvertisementActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String LOG_TAG = "AddAdvertisementActivity";
 
@@ -268,6 +267,7 @@ public class AddAdvertisementActivity extends AppCompatActivity implements View.
                         mDatabase.child(key).setValue(adv);
 
                         Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
+                        intent.putExtra("Type", "allAdvertisement");
                         startActivity(intent);
                         finish();
                     }

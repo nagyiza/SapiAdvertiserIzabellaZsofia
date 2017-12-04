@@ -93,7 +93,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d("GLIDE", "Glide elott");
         if(photos != null) {
             Glide.with(inflater.getContext()).load(photos.get(0))
-                    .override(400, 200)
                     .into(holder.mImageView);
             Log.d("GLIDE", photos.get(0));
         }

@@ -14,8 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-public class MenuActivity extends AppCompatActivity {
 
+import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
+
+public class MenuActivity extends BaseActivity {
     private FragmentManager fragmentManager;
     private Fragment fragment = null;
 
