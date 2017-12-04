@@ -2,7 +2,6 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     private static final String LOG_TAG = "ProfileActivity";
 
@@ -133,12 +132,23 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                     Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                    addAdvertisementIntent.putExtra("Type", "allAdvertisement");
                     startActivity(addAdvertisementIntent);
                     finish();
                 }
             }
 
         });
+        MyadvertisermentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                intent.putExtra("Type", "myAdvertisement");
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 //Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {

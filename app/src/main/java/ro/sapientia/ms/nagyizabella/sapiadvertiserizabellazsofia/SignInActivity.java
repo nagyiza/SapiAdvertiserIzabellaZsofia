@@ -92,6 +92,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             Toast.makeText(SignInActivity.this, "Sign In",
                                     Toast.LENGTH_SHORT).show();
                             Intent profileIntent = new Intent(SignInActivity.this, AdvertisementListActivity.class);
+                            profileIntent.putExtra("Type", "allAdvertisement");
                             startActivity(profileIntent);
                             finish();
                         } else {
