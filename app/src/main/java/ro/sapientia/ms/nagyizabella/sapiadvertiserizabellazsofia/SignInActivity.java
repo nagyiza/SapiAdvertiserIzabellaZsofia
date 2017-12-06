@@ -45,6 +45,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -174,7 +175,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     // [START basic_write]
     private void writeNewUser(String userId, String email) {
-        User user = new User(email, "", "", "");
+        User user = new User(email, "", "", "", "");
 
         mDatabase.child("users").child(userId).setValue(user);
     }

@@ -1,16 +1,24 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -21,10 +29,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends BaseActivity {
 
     private static final String LOG_TAG = "ProfileActivity";
+    private int RESULT_LOAD_IMAGE = 1;
 
     private DatabaseReference mDatabase;
     //the FirebaseAuth and AuthStateListener objects.
@@ -43,6 +55,12 @@ public class ProfileActivity extends BaseActivity {
 
     private ImageView profilePhoto;
 
+    //for image
+    private String imagesEncoded;
+    private Bitmap bitmap = null; // list
+    private Uri imageURI = null;
+    private LayoutInflater inflater;
+
     public ProfileActivity() {
     }
 
@@ -51,6 +69,10 @@ public class ProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //menu
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        menuItemSelected(navigationView);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -78,6 +100,13 @@ public class ProfileActivity extends BaseActivity {
                 EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
                 EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
                 EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
+                String image = dataSnapshot.child("profilImage").getValue().toString();
+                if(image.equals("") && image != null) {
+                    Glide.with(ProfileActivity.this).load(image)
+                            .override(120,120)
+                            .into(profilePhoto);
+                }
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -86,13 +115,13 @@ public class ProfileActivity extends BaseActivity {
         });
 
 
-        profilePhoto = (ImageView)findViewById(R.id.circleView);
+        profilePhoto = (ImageView)findViewById(R.id.cv_profileImage);
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent,2000);
+                startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
             }
         });
 
@@ -113,6 +142,7 @@ public class ProfileActivity extends BaseActivity {
                     if (user == null) {
                         Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
                     } else {
+
                         String id = user.getUid();
                         if (profileEmail != "") {
                             //TODO authentifikalasnal is valtozzon meg
@@ -159,6 +189,9 @@ public class ProfileActivity extends BaseActivity {
                                 }
                             });
 
+                        }
+                        if(bitmap != null){
+                            ImageSave(imageURI);
                         }
 
                     }
@@ -249,5 +282,104 @@ public class ProfileActivity extends BaseActivity {
       //  mDatabase.child("uj").child(userId).setValue(user);
     }
     // [END basic_write]
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        bitmap = null;
+        imageURI = null;
+        try {
+            // When an Image is picked
+            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                if (data.getData() != null) {
+
+                    Uri mImageUri = data.getData();
+
+                    imageURI = mImageUri;
+                    // Get the cursor
+                    Cursor cursor = getContentResolver().query(mImageUri,
+                            filePathColumn, null, null, null);
+                    // Move to first row
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    imagesEncoded = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    Bitmap bp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+
+                    bitmap = Bitmap.createScaledBitmap(bp, 120, 120, false);
+
+
+                   profilePhoto.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 250, 250, false));
+
+
+                }
+            } else {
+                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong" + e, Toast.LENGTH_LONG).show();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void ImageSave(Uri mImageUri) {
+        uploadFromUri(mImageUri);
+    }
+    String downloadUri;
+    int counter;
+    // [START declare_ref]
+    private StorageReference mStorageRef;
+    // [END declare_ref]
+    private void uploadFromUri(final Uri fileUri) {
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        counter = 1;
+        final String key =  mDatabase.push().getKey();
+
+            // [START get_child_ref]
+            // Get a reference to store file at photos/<FILENAME>.jpg
+
+            final StorageReference photoRef = mStorageRef.child("UserProfilePhotos").child(key).child(fileUri.getLastPathSegment());
+            // [END get_child_ref]
+
+            photoRef.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(ProfileActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
+
+                    downloadUri = taskSnapshot.getDownloadUrl().toString();
+
+                    if(counter <= 2) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String id = user.getUid();
+
+                        mDatabase.child("users").child(id).child("profilImage").setValue(downloadUri);
+
+                        Intent intent = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                        intent.putExtra("Type", "allAdvertisement");
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    counter++;
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+    }
 
 }

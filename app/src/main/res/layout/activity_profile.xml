@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,13 +25,14 @@
             android:background="@color/colorPrimary">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/cv_profileImage"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/profile_base"
-                android:id="@+id/circleView"/>
+                />
             <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
@@ -162,3 +169,13 @@
 
     </RelativeLayout>
 </ScrollView>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/menu"
+        app:headerLayout="@layout/nav_header_profile"/>
+
+</android.support.v4.widget.DrawerLayout>

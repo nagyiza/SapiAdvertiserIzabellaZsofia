@@ -30,12 +30,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mGuestButton.setOnClickListener(this);
 
 
-/*
-        Intent intentmenu = new Intent(MainActivity.this, MenuActivity.class);
-        startActivity(intentmenu);
-*/
-
-
         // Write a message to the database
         //try {
         //    database = FirebaseDatabase.getInstance();

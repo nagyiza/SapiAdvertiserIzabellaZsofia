@@ -3,6 +3,7 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -47,6 +48,10 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advertisement_list);
+
+        //menu
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        menuItemSelected(navigationView);
 
         Intent intent = getIntent();
         type = (String) intent.getExtras().getSerializable("Type");

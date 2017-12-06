@@ -132,7 +132,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                                     Toast.LENGTH_SHORT).show();
 
                             try {
-                                User userModel = new User(user.getEmail(), "", "", "");
+                                User userModel = new User(user.getEmail(), "", "", "", "");
 
                                 mDatabase.child("users").child(user.getUid()).setValue(user);
                             }catch (NullPointerException e){

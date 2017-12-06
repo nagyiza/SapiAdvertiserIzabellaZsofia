@@ -11,6 +11,7 @@ public class User {
     private String FirstName;
     private String LastName;
     private String PhoneNumbers;
+    private String profilImage;
     //private String Password;
     //private String ConfirmPassword;
 
@@ -18,15 +19,13 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String email, String last) {
-        this.email = email;
-        this.LastName = last;
-    }
-    public User(String email, String first, String last, String phone) {
+
+    public User(String email, String first, String last, String phone, String image) {
         this.email = email;
         this.FirstName = first;
         this.LastName = last;
         this.PhoneNumbers = phone;
+        this.profilImage = image;
     }
 
 
@@ -61,6 +60,14 @@ public class User {
 
     public void setPhoneNumbers(String phoneNumbers) {
         PhoneNumbers = phoneNumbers;
+    }
+
+    public String getProfilImage() {
+        return profilImage;
+    }
+
+    public void setProfilImage(String image) {
+        profilImage = image;
     }
 
     //public String getPassword() {
