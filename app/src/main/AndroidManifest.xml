@@ -21,12 +21,12 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".ProfileActivity" />
-       <!-- <activity android:name=".CircleImageView" /> -->
+        <!-- <activity android:name=".CircleImageView" /> -->
         <activity android:name=".AddAdvertisementActivity" />
         <activity android:name=".MenuActivity" />
-
         <activity android:name=".SignInActivity" />
-        <activity android:name=".AdvertisementListActivity"></activity>
+        <activity android:name=".AdvertisementListActivity" />
+        <activity android:name=".AdvertisementData"></activity>
     </application>
 
 </manifest>

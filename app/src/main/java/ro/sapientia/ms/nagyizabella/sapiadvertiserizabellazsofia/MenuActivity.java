@@ -1,5 +1,6 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MenuActivity extends BaseActivity {
     private FragmentManager fragmentManager;
@@ -48,12 +52,28 @@ public class MenuActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
+                Intent intent;
+                FirebaseUser currentUser= FirebaseAuth.getInstance().getCurrentUser();;
 
                 if (id == R.id.nav_profile) {
-                   Fragment fragment = new MenuFragment();
-                    Toast.makeText(MenuActivity.this,"MyProfile",Toast.LENGTH_SHORT).show();
+                 //  Fragment fragment = new MenuFragment();
+                    //----------------------------------------------------
+                    if(currentUser != null) {
+                        intent = new Intent(MenuActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(MenuActivity.this,"MyProfile",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else{
+                        Toast.makeText(MenuActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
+                    }
+
                 } else if (id == R.id.nav_home) {
+                    //---------------------------------------------------------
+                    intent = new Intent(MenuActivity.this, MainActivity.class);
+                    startActivity(intent);
                     Toast.makeText(MenuActivity.this,"Home",Toast.LENGTH_SHORT);
+                    finish();
+
                 } else if (id == R.id.nav_myadvert) {
                     Toast.makeText(MenuActivity.this,"MyAdvertiserment",Toast.LENGTH_SHORT);
                 } else if (id == R.id.nav_alladvert) {

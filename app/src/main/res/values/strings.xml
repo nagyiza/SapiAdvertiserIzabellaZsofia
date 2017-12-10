@@ -49,4 +49,7 @@
     <string name="anonymus">Guest</string>
     <string name="menu_signout">Sign out</string>
 
+    <string name="title_data">activity_menu</string>
+    <string name="call_creator">Call creator</string>
+
 </resources>
