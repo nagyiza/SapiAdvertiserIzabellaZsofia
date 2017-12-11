@@ -101,9 +101,9 @@ public class ProfileActivity extends BaseActivity {
                 EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
                 EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
                 String image = dataSnapshot.child("profilImage").getValue().toString();
-                if(image.equals("") && image != null) {
+                if(image != null && image.length() != 0) {
                     Glide.with(ProfileActivity.this).load(image)
-                            .override(120,120)
+                            .override(50,50)
                             .into(profilePhoto);
                 }
 
@@ -142,6 +142,10 @@ public class ProfileActivity extends BaseActivity {
                     if (user == null) {
                         Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        if(bitmap != null){
+                            ImageSave(imageURI);
+                        }
 
                         String id = user.getUid();
                         if (profileEmail != "") {
@@ -190,15 +194,13 @@ public class ProfileActivity extends BaseActivity {
                             });
 
                         }
-                        if(bitmap != null){
-                            ImageSave(imageURI);
-                        }
+
 
                     }
                     Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
                     addAdvertisementIntent.putExtra("Type", "allAdvertisement");
                     startActivity(addAdvertisementIntent);
-                    finish();
+                    //finish();
                 }
 
             }
@@ -275,13 +277,6 @@ public class ProfileActivity extends BaseActivity {
         }
     }
 
-    // [START basic_write]
-    private void writeNewUser(String userId,String profileEmail,String profileFirstName,String profileLastName,String profilePhoneNumber,String profilePassword,String profileConfirmPassword) {
-      //  User user = new User(userId, profileEmail,profileFirstName, profileLastName, profilePhoneNumber, profilePassword, profileConfirmPassword);
-
-      //  mDatabase.child("uj").child(userId).setValue(user);
-    }
-    // [END basic_write]
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -310,10 +305,10 @@ public class ProfileActivity extends BaseActivity {
 
                     Bitmap bp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
 
-                    bitmap = Bitmap.createScaledBitmap(bp, 120, 120, false);
+                    bitmap = Bitmap.createScaledBitmap(bp, 50, 50, false);
 
 
-                   profilePhoto.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 250, 250, false));
+                   profilePhoto.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 50, 50, false));
 
 
                 }
@@ -343,11 +338,13 @@ public class ProfileActivity extends BaseActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         counter = 1;
         final String key =  mDatabase.push().getKey();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
 
             // [START get_child_ref]
             // Get a reference to store file at photos/<FILENAME>.jpg
 
-            final StorageReference photoRef = mStorageRef.child("UserProfilePhotos").child(key).child(fileUri.getLastPathSegment());
+            final StorageReference photoRef = mStorageRef.child("UserProfilePhotos").child(id).child(fileUri.getLastPathSegment());
             // [END get_child_ref]
 
             photoRef.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
