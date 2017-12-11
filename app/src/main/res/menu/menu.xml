@@ -21,7 +21,7 @@
             android:title="@string/menu_myadvert" />
         <item
             android:id="@+id/nav_signout"
-            android:icon="@drawable/ic_menu_all_advertisement"
+            android:icon="@drawable/ic_power"
             android:title="@string/menu_signout" />
     </group>
 
