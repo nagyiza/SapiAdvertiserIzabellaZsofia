@@ -8,7 +8,8 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.SignInActivity">
+    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.SignInActivity"
+    android:background="@color/colorWhite">
 
     <ImageView
         android:id="@+id/icon"

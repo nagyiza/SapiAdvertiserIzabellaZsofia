@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.BaseActivity">
+    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.BaseActivity"
+    android:background="@color/colorWhite">
 
 </android.support.constraint.ConstraintLayout>

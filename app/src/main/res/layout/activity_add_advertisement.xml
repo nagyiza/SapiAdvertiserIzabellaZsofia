@@ -12,7 +12,8 @@
     android:id="@+id/sv_detail"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.AddAdvertisementActivity">
+    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.AddAdvertisementActivity"
+    android:background="@color/colorWhite">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_description"
@@ -37,6 +38,8 @@
                 android:paddingTop="18dp"
                 android:textSize="20sp"
                 android:hint="Title"
+                android:textColor="@color/colorBase"
+                android:textColorHint="@color/colorHint"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -48,7 +51,7 @@
                 android:textSize="20sp"
                 android:text="@string/text"
                 android:textAlignment="center"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorPrimaryDark"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <EditText
@@ -61,39 +64,40 @@
                 android:paddingTop="18dp"
                 android:textSize="15sp"
                 android:hint="..........................................."
+                android:textColorHint="@color/colorHint"
+                android:textColor="@color/colorBase"
                 android:textAlignment="center" />
         </LinearLayout>
 
         <Button
             android:id="@+id/adver_location"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
+            android:layout_height="55dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:textColor="@color/colorWhite"
             android:text="@string/adver_location"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:textSize="20sp"
             android:background="@drawable/buttonshape"
             android:layout_marginBottom="15dp"
-            android:layout_below="@id/adver_header"/>
-        <Button
-            android:id="@+id/adver_image"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/colorWhite"
-            android:text="@string/adver_image"
-            android:layout_below="@id/adver_location"
-            android:padding="10dp"
-            android:textSize="20sp"
-            android:background="@drawable/buttonshape"
-            android:layout_marginBottom="50dp"/>
+            android:layout_below="@id/adver_header"
+            android:gravity="center_horizontal"
+            android:textSize="20dp"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
+            android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/adver_image"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_alignEnd="@+id/adver_header"
+        android:layout_alignTop="@+id/adver_location"
+        android:layout_marginEnd="13dp"
+
+        android:background="@drawable/buttonshape"
+        android:padding="10dp"
+        android:text="@string/adver_image"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     <LinearLayout
         android:id="@+id/ll_image"
@@ -108,21 +112,22 @@
             android:numColumns="4"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:cacheColorHint="@color/colorPrimaryDark"
             />
     </LinearLayout>
 
         <Button
             android:id="@+id/add_adver"
-            android:layout_width="match_parent"
+            android:layout_width="180dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/colorWhite"
             android:text="@string/add_adver"
             android:layout_below="@id/ll_image"
-            android:padding="10dp"
-            android:textSize="20sp"
+            android:textSize="15dp"
             android:background="@drawable/buttonshape"
             android:layout_marginBottom="50dp"
             />

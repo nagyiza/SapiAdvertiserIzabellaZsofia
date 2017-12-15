@@ -143,6 +143,8 @@ public class ProfileActivity extends BaseActivity {
         saveEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProgressDialog();
+
                 String profileEmail = EditEmail.getText().toString();
                 String profileFirstName = EditFistName.getText().toString();
                 String profileLastName = EditLastName.getText().toString();
@@ -210,9 +212,9 @@ public class ProfileActivity extends BaseActivity {
 
 
                     }
-                    Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
-                    addAdvertisementIntent.putExtra("Type", "allAdvertisement");
-                    startActivity(addAdvertisementIntent);
+                    //Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                    //addAdvertisementIntent.putExtra("Type", "allAdvertisement");
+                    //startActivity(addAdvertisementIntent);
                     //finish();
                 }
 
@@ -364,6 +366,7 @@ public class ProfileActivity extends BaseActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(ProfileActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
 
                     downloadUri = taskSnapshot.getDownloadUrl().toString();
 
@@ -380,6 +383,8 @@ public class ProfileActivity extends BaseActivity {
                     }
 
                     counter++;
+
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

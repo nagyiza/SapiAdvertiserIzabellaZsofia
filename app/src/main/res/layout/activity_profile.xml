@@ -4,6 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     >
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -73,6 +74,22 @@
             android:theme="@style/ThemeOverlay.MyDarkButton"/>
 
         <EditText
+            android:id="@+id/et_email"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/my_advertiserment"
+            android:hint="EMAIL"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
+            android:layout_centerHorizontal="true"
+            android:enabled="false"
+            android:theme="@style/ThemeOverlay.MyTitleText"
+            />
+
+        <EditText
             android:id="@+id/first_name"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -81,9 +98,10 @@
             android:padding="10dp"
             android:textSize="15dp"
             android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="text"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/my_advertiserment"
+            android:layout_below="@id/et_email"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
 
@@ -96,37 +114,25 @@
             android:layout_below="@id/first_name"
             android:padding="10dp"
             android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:textSize="15dp"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
 
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/last_name"
-            android:hint="EMAIL"
-            android:padding="10dp"
-            android:textSize="15dp"
-            android:textColor="@color/colorBase"
-            android:layout_centerHorizontal="true"
-            android:enabled="false"
-            android:theme="@style/ThemeOverlay.MyTitleText"
-            />
 
         <EditText
             android:id="@+id/phone_number"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/et_email"
+            android:layout_below="@id/last_name"
             android:hint="PHONE NUMBER"
             android:padding="10dp"
             android:inputType="number"
             android:textSize="15dp"
             android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
@@ -141,6 +147,7 @@
             android:padding="10dp"
             android:textSize="15dp"
             android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
@@ -156,6 +163,7 @@
             android:padding="10dp"
             android:textSize="15dp"
             android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
