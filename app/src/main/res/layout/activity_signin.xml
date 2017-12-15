@@ -24,7 +24,7 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:text = "@string/app_name"
-        android:textColor="@color/text_color"
+        android:textColor="@color/colorBase"
         android:textStyle="bold"
         android:layout_below="@+id/icon"
         android:src="@drawable/sapi"
@@ -46,6 +46,8 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:hint="@string/hint_email"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
     </LinearLayout>
@@ -68,6 +70,8 @@
             android:gravity="center_horizontal"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:maxLines="1" />
 
     </LinearLayout>
@@ -85,7 +89,10 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/et_password"
-            android:text="@string/signin" />
+            android:text="@string/signin"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorWhite"
+            android:textSize="15dp"/>
 
 
     </LinearLayout>

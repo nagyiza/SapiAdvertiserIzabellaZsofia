@@ -24,7 +24,7 @@
          android:layout_height="wrap_content"
          android:paddingTop="1.60dp"
          android:textSize="25.40dp"
-         android:text="@string/menu_profile"
+         android:text="@string/menu"
          android:layout_gravity="center"
          android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

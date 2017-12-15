@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/colorDivider">
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/idImageViewSemafor"
@@ -107,7 +107,6 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginDown="0dp"
                 android:layout_marginLeft= "25dp"
                 android:layout_marginBottom="1dp"
                 android:layout_below="@id/mapview_header"
@@ -127,17 +126,16 @@
 
             <Button
                 android:id="@+id/bt_save"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/cv_profileImage"
                 android:layout_alignEnd="@+id/mapview_header"
                 android:layout_marginEnd="23dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/buttonshape"
                 android:padding="10dp"
                 android:text="@string/call_creator"
                 android:textColor="@color/colorWhite"
-                android:textSize="15dp"
-                android:shape="oval"
+                android:textSize="12dp"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         </RelativeLayout>

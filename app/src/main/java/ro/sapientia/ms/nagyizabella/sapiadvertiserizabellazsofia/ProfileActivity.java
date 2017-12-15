@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +34,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.w3c.dom.Text;
+
 public class ProfileActivity extends BaseActivity {
 
     private static final String LOG_TAG = "ProfileActivity";
@@ -49,6 +52,8 @@ public class ProfileActivity extends BaseActivity {
     private EditText EditPhoneNumbers;
     private EditText EditPassword;
     private EditText EditConfirmPassword;
+
+    private TextView ProfileName;
 
     private Button MyadvertisermentButton;
     private Button saveEditButton;
@@ -85,6 +90,8 @@ public class ProfileActivity extends BaseActivity {
         EditPassword = (EditText)findViewById(R.id.et_password);
         EditConfirmPassword = (EditText)findViewById(R.id.confirm_password);
 
+        ProfileName = (TextView)  findViewById(R.id.profile_name);
+
         saveEditButton = (Button)findViewById(R.id.bt_save);
         MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
 
@@ -96,16 +103,22 @@ public class ProfileActivity extends BaseActivity {
         mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                EditEmail.setText(dataSnapshot.child("email").getValue().toString());
-                EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
-                EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
-                EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
-                String image = dataSnapshot.child("profilImage").getValue().toString();
-                if(image != null && image.length() != 0) {
-                    Glide.with(ProfileActivity.this).load(image)
-                            .override(50,50)
-                            .into(profilePhoto);
-                }
+
+                    EditEmail.setText(dataSnapshot.child("email").getValue().toString());
+                    EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
+                    EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
+                    String profileName = dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString();
+                    if (!profileName.equals("")) {
+                        ProfileName.setText(profileName);
+                    }
+                    EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
+                    String image = dataSnapshot.child("profilImage").getValue().toString();
+                    if (image != null && image.length() != 0) {
+                        Glide.with(ProfileActivity.this).load(image)
+                                .override(50, 50)
+                                .into(profilePhoto);
+                    }
+
 
             }
             @Override

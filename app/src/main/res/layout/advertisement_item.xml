@@ -3,6 +3,7 @@
     android:layout_height="wrap_content"
     android:padding="6dip">
 
+<!--Todo:circleView ,fejlec(border az egesznek-->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="fill_parent"

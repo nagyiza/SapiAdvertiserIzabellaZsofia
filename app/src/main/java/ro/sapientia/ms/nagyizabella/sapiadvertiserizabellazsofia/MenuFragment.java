@@ -74,7 +74,7 @@ public class MenuFragment extends Fragment {
         EditLastName.setVisibility(View.GONE);
 
 //Select Profile Photo
-        profilePhoto = (ImageView)view.findViewById(R.id.circleView);
+        profilePhoto = (ImageView)view.findViewById(R.id.cv_profileImage);
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

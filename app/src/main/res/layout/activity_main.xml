@@ -44,8 +44,8 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text = "@string/app_name"
-            android:textColor="@color/text_color"
-            android:textSize="25dip"
+            android:textColor="@color/colorBase"
+            android:textSize="30dip"
             android:textStyle="bold"
             android:src="@drawable/sapi" />
     </LinearLayout>
@@ -61,19 +61,29 @@
 
         <Button
             android:id="@+id/signin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
+            android:background="@drawable/buttonshape"
             android:text="@string/signin"
+            android:textColor="@color/colorWhite"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:layout_marginBottom="15dp"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
             android:layout_margin="16dp"/>
         <Button
             android:id="@+id/guest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
+            android:background="@drawable/buttonshape"
             android:text="@string/anonymus"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorWhite"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
             android:layout_margin="16dp"/>
 
     </LinearLayout>
