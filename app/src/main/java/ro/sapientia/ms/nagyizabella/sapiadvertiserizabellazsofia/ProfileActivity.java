@@ -366,7 +366,7 @@ public class ProfileActivity extends BaseActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(ProfileActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
-                    hideProgressDialog();
+                  //  hideProgressDialog();
 
                     downloadUri = taskSnapshot.getDownloadUrl().toString();
 
@@ -392,7 +392,6 @@ public class ProfileActivity extends BaseActivity {
                     Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
                 }
             });
-
 
 
     }
