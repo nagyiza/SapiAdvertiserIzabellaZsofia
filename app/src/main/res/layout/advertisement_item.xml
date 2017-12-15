@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="6dip">
+    android:padding="6dip"
+    android:background="@color/colorWhite">
 
+<!--Todo:circleView ,fejlec(border az egesznek-->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="fill_parent"

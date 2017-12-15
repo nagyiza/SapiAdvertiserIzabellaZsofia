@@ -113,6 +113,8 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
     }
 
     private void AddAdvertisement() {
+        showProgressDialog();
+
         title = EditTitle.getText().toString();
         detail = EditDetail.getText().toString();
 
@@ -263,6 +265,7 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(AddAdvertisementActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
 
                     downloadUri.add(taskSnapshot.getDownloadUrl().toString());
 

@@ -10,7 +10,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AdvertisementData">
+        tools:context=".AdvertisementData"
+        android:background="@color/colorWhite">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -24,7 +25,7 @@
                 android:gravity="center"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/colorDivider">
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/idImageViewSemafor"
@@ -42,7 +43,7 @@
                     android:paddingTop="1dp"
                     android:textSize="25dp"
                     android:text="Title"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -66,8 +67,8 @@
                     android:padding="10dp"
                     android:textSize="20sp"
                     android:text="@string/text"
-                    android:textColor="@color/colorBlack"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"  />
 
                 <EditText
                     android:id="@+id/adver_text"
@@ -79,6 +80,8 @@
                     android:paddingTop="18dp"
                     android:textSize="15sp"
                     android:hint="..........................................."
+                    android:textColor="@color/colorBase"
+                    android:textColorHint="@color/colorHint"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -94,12 +97,14 @@
                 android:layout_below="@id/description_header"
                 android:orientation="vertical"
                 android:background="@color/colorDivider">
-                <!--
-               <com.google.android.gms.maps.MapView android:id="@+id/mapview"
+<!--
+               <com.google.android.gms.maps.MapView
+                   android:id="@+id/mapview"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     />
 -->
+
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -120,24 +125,23 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginLeft= "37dp"
                 android:text="Creator"
-                android:textColor="@color/colorBlack"
                 android:layout_below="@id/cv_profileImage"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:textColor="@color/colorBase"/>
 
             <Button
                 android:id="@+id/bt_save"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/cv_profileImage"
                 android:layout_alignEnd="@+id/mapview_header"
                 android:layout_marginEnd="23dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/buttonshape"
                 android:padding="10dp"
                 android:text="Call creator"
                 android:textColor="@color/colorWhite"
-                android:textSize="15dp"
-                android:shape="oval"
+                android:textSize="12dp"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     </RelativeLayout>

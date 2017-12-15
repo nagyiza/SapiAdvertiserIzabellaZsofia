@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.GoogleSignInActivity">
+    tools:context="ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.GoogleSignInActivity"
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:id="@+id/layout_button"

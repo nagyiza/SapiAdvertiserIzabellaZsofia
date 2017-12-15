@@ -51,5 +51,6 @@
 
     <string name="title_data">activity_menu</string>
     <string name="call_creator">Call creator</string>
+    <string name="menu">Menu</string>
 
 </resources>

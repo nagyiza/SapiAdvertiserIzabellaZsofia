@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    >
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +15,8 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
         <LinearLayout
             android:id="@+id/profile_header"
             android:layout_width="match_parent"
@@ -59,16 +62,32 @@
         <Button
             android:id="@+id/my_advertiserment"
             android:layout_width="wrap_content"
+            android:background="@drawable/buttonshape"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:text="@string/my_advertiserment"
             android:layout_marginTop="160dp"
-            android:layout_marginLeft="260dp"
+            android:layout_marginLeft="230dp"
             android:padding="10dp"
-            android:textSize="9dp"
-            android:background="@color/colorPrimaryDark"
+            android:textSize="12dp"
             android:layout_marginBottom="15dp"
             android:theme="@style/ThemeOverlay.MyDarkButton"/>
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/my_advertiserment"
+            android:hint="EMAIL"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
+            android:layout_centerHorizontal="true"
+            android:enabled="false"
+            android:theme="@style/ThemeOverlay.MyTitleText"
+            />
 
         <EditText
             android:id="@+id/first_name"
@@ -78,9 +97,11 @@
             android:hint="FIRST NAME"
             android:padding="10dp"
             android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="text"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/my_advertiserment"
+            android:layout_below="@id/et_email"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
 
@@ -92,34 +113,26 @@
             android:hint="LAST NAME"
             android:layout_below="@id/first_name"
             android:padding="10dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:textSize="15dp"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
 
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/last_name"
-            android:hint="EMAIL"
-            android:padding="10dp"
-            android:textSize="15dp"
-            android:layout_centerHorizontal="true"
-            android:theme="@style/ThemeOverlay.MyTitleText"
-            />
 
         <EditText
             android:id="@+id/phone_number"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/et_email"
+            android:layout_below="@id/last_name"
             android:hint="PHONE NUMBER"
             android:padding="10dp"
             android:inputType="number"
             android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
             />
@@ -133,6 +146,8 @@
             android:hint="PASSWORD"
             android:padding="10dp"
             android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
@@ -147,6 +162,8 @@
             android:hint="CONFIRM PASSWORD"
             android:padding="10dp"
             android:textSize="15dp"
+            android:textColor="@color/colorBase"
+            android:textColorHint="@color/colorHint"
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:theme="@style/ThemeOverlay.MyTitleText"
@@ -154,7 +171,7 @@
 
         <Button
             android:id="@+id/bt_save"
-            android:layout_width="wrap_content"
+            android:layout_width="200px"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/colorWhite"
@@ -162,7 +179,7 @@
             android:layout_below="@id/confirm_password"
             android:padding="10dp"
             android:textSize="15dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/buttonshape"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="50dp"
             android:theme="@style/ThemeOverlay.MyDarkButton"/>
