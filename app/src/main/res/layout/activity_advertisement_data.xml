@@ -127,6 +127,7 @@
                 android:text="Creator"
                 android:layout_below="@id/cv_profileImage"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:ignore="HardcodedText"
                 android:textColor="@color/colorBase"/>
 
             <Button
@@ -138,12 +139,12 @@
                 android:layout_marginEnd="23dp"
                 android:background="@drawable/buttonshape"
                 android:padding="10dp"
-                android:text="@string/call_creator"
+                android:text="Call creator"
                 android:textColor="@color/colorWhite"
                 android:textSize="12dp"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
-        </RelativeLayout>
+    </RelativeLayout>
     </ScrollView>
 
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>

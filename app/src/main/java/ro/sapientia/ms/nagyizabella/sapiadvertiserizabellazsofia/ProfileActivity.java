@@ -34,8 +34,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
-
 public class ProfileActivity extends BaseActivity {
 
     private static final String LOG_TAG = "ProfileActivity";
@@ -158,10 +156,6 @@ public class ProfileActivity extends BaseActivity {
                         Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        if(bitmap != null){
-                            ImageSave(imageURI);
-                        }
-
                         String id = user.getUid();
                         if (profileEmail != "") {
                             //TODO authentifikalasnal is valtozzon meg
@@ -210,12 +204,18 @@ public class ProfileActivity extends BaseActivity {
 
                         }
 
+                        if(bitmap != null){
+                            ImageSave(imageURI);
+                        }else{
+                            Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                            addAdvertisementIntent.putExtra("Type", "allAdvertisement");
+                            startActivity(addAdvertisementIntent);
+                            //finish();
+                        }
+
 
                     }
-                    //Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
-                    //addAdvertisementIntent.putExtra("Type", "allAdvertisement");
-                    //startActivity(addAdvertisementIntent);
-                    //finish();
+
                 }
 
             }
