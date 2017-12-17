@@ -25,7 +25,7 @@
             android:id="@+id/sapilogo"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:src="@drawable/sap"
+            android:src="@drawable/logo"
            />
     </LinearLayout>
 

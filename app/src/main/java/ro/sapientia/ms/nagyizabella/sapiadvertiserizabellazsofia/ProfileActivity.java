@@ -141,7 +141,7 @@ public class ProfileActivity extends BaseActivity {
         saveEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showProgressDialog();
+             //   showProgressDialog();
 
                 String profileEmail = EditEmail.getText().toString();
                 String profileFirstName = EditFistName.getText().toString();
@@ -392,7 +392,6 @@ public class ProfileActivity extends BaseActivity {
                     Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
                 }
             });
-
 
     }
 

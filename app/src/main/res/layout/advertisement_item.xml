@@ -1,19 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="6dip"
+    android:padding="4dp"
     android:background="@color/colorWhite">
 
-<!--Todo:circleView ,fejlec(border az egesznek-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:background="@color/colorBase"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:paddingTop="3dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingTop="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <LinearLayout
@@ -27,7 +26,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:cropToPadding="true"
+                android:cropToPadding="false"
                 android:src="@drawable/profile_base"
                 />
 
