@@ -270,6 +270,12 @@ public class ProfileActivity extends BaseActivity {
             return false;
 
         }
+          /*  else if(profilePassword !=profileConfirmPassword) {
+
+            Toast.makeText(getApplicationContext(), "ProfilePassword and ConfirmPassword not equal", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }*/
 
         return true;
     }
