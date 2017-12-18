@@ -108,67 +108,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
     }
-    /*
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        FirebaseUser currentUser;
-        switch (item.toString()){
-            case "Home":
-                intent = new Intent(BaseActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case "Profile":
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if(currentUser != null) {
-                    intent = new Intent(BaseActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "Advertisement":
-                intent = new Intent(BaseActivity.this, AdvertisementListActivity.class);
-                intent.putExtra("Type", "allAdvertisement");
-                startActivity(intent);
-                finish();
-                break;
-            case "My Advertisement":
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if(currentUser != null) {
-                    intent = new Intent(BaseActivity.this, AdvertisementListActivity.class);
-                    intent.putExtra("Type", "myAdvertisement");
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "Sign out":
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if(currentUser != null){
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(BaseActivity.this, "Sign out", Toast.LENGTH_LONG).show();
-                    intent = new Intent(BaseActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
-                }
-            //default:break;
-        }
-        Log.d("MENU", item.toString());
-        return true;
-    }
-*/
     public void isUserCurrentlyLogin(final Context context){
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -191,6 +131,5 @@ public class BaseActivity extends AppCompatActivity {
             context.startActivity(profileIntent);
         }
     }
-
 
 }

@@ -48,6 +48,33 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/nextprev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/prev_image"
+                android:gravity="left"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="72sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/prev"/>
+            <TextView
+                android:id="@+id/next_image"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="72sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/next"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/description_header"
@@ -60,17 +87,18 @@
                 android:layout_below="@id/picture_header"
                 android:orientation="vertical">
 
+
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textSize="20sp"
-                    android:text="@string/text"
+                    android:text="@string/description"
                     android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"  />
 
-                <EditText
+                <TextView
                     android:id="@+id/adver_text"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +107,6 @@
                     android:scrollbars = "vertical"
                     android:paddingTop="18dp"
                     android:textSize="15sp"
-                    android:hint="..........................................."
                     android:textColor="@color/colorBase"
                     android:textColorHint="@color/colorHint"
                     android:textAlignment="center" />
@@ -129,9 +156,20 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:ignore="HardcodedText"
                 android:textColor="@color/colorBase"/>
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft= "37dp"
+                android:text="Phone number"
+                android:layout_below="@id/creator"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/colorBase"/>
 
             <Button
-                android:id="@+id/bt_save"
+                android:id="@+id/bt_call"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/cv_profileImage"
