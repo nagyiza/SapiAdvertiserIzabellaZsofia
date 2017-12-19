@@ -3,7 +3,7 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +21,7 @@ import java.util.List;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
 
-public class AdvertisementData extends AppCompatActivity implements View.OnClickListener{
+public class AdvertisementData extends BaseActivity implements View.OnClickListener{
 
     //view
     //images
@@ -48,6 +48,11 @@ public class AdvertisementData extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advertisement_data);
+
+        //menu
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        menuItemSelected(navigationView);
+
         //database
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");

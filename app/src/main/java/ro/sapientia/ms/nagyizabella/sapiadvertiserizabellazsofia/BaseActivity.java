@@ -1,9 +1,7 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -43,6 +42,8 @@ public class BaseActivity extends AppCompatActivity {
     //MENU
 
     public void menuItemSelected(NavigationView navigationView) {
+
+        profileImage();
 
         disableNavigationViewScrollbars(navigationView);
 
@@ -91,6 +92,8 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
 
+
+
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 assert drawer != null;
                 drawer.closeDrawer(GravityCompat.START);
@@ -98,6 +101,49 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private DatabaseReference mDatabase;
+    private void profileImage() {
+/*
+//googlenel kiakad
+        ViewGroup parent = (ViewGroup) findViewById(R.id.menu_header);
+        LayoutInflater inflater = (BaseActivity.this).getLayoutInflater();
+        View row = inflater.inflate(R.layout.nav_header_profile, parent, false);
+
+        final ImageView profileImage = row.findViewById(R.id.circleView);
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = "";
+        if(!user.equals(null)) {
+            userid = user.getUid();
+        }
+        final String id;
+        if(userid.equals("")){
+            id = "";
+        }else{
+            id = userid;
+        }
+        mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String image = dataSnapshot.child("profilImage").getValue().toString();
+                if (image != null && image.length() != 0 && !id.equals("")) {
+                    Glide.with(BaseActivity.this).load(image)
+                            .override(50, 50)
+                            .into(profileImage);
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+        row.setTag(profileImage);
+        */
     }
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -108,7 +154,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
     }
-
+ /*
     public void isUserCurrentlyLogin(final Context context){
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -124,12 +170,12 @@ public class BaseActivity extends AppCompatActivity {
             }
         };
     }
-    public FirebaseAuth firebaseAuth;
+  public FirebaseAuth firebaseAuth;
     public void checkUserLogin(final Context context){
         if(firebaseAuth.getCurrentUser() != null){
             Intent profileIntent = new Intent(context, MenuActivity.class);
             context.startActivity(profileIntent);
         }
-    }
+    }*/
 
 }

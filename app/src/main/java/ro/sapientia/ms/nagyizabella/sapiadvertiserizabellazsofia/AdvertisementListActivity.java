@@ -53,6 +53,7 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
 
         //menu
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        iii(R.layout.nav_header_profile);
         menuItemSelected(navigationView);
 
         Intent intent = getIntent();
@@ -83,6 +84,10 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
 
         LoadAdvertisement();
         LoadProfileImage();
+    }
+
+    private void iii(int nav_header_profile) {
+
     }
 
     private void LoadProfileImage() {
