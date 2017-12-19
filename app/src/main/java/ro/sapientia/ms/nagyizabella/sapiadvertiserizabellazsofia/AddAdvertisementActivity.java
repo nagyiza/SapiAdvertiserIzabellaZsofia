@@ -271,6 +271,7 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
 
                     if(counter == fileUri.size()) {
                         Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+                        adv.setId(key);
                         mDatabase.child(key).setValue(adv);
 
                         Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);

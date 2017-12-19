@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
@@ -62,6 +63,7 @@ public class GoogleSignInActivity extends BaseActivity implements
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_auth]
 
         signIn();
@@ -91,9 +93,9 @@ public class GoogleSignInActivity extends BaseActivity implements
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
 
-                Intent profileIntent = new Intent(GoogleSignInActivity.this, AdvertisementListActivity.class);
-                profileIntent.putExtra("Type", "allAdvertisement");
-                startActivity(profileIntent);
+                Intent advIntent = new Intent(GoogleSignInActivity.this, AdvertisementListActivity.class);
+                advIntent.putExtra("Type", "allAdvertisement");
+                startActivity(advIntent);
                 finish();
             } else {
                 // Google Sign In failed
@@ -133,17 +135,16 @@ public class GoogleSignInActivity extends BaseActivity implements
 
                             try {
                                 User userModel = new User(user.getEmail(), "", "", "", "");
-
                                 mDatabase.child("users").child(user.getUid()).setValue(user);
+
                             }catch (NullPointerException e){
                                 Log.d("GOOGLE",e.getMessage());
                             }
 
                             //next activity
-                            Intent profileIntent = new Intent(GoogleSignInActivity.this, AdvertisementListActivity.class);
-                            profileIntent.putExtra("Type", "allAdvertisement");
-                            startActivity(profileIntent);
-                            finish();
+                            //Intent profileIntent = new Intent(GoogleSignInActivity.this, ProfileActivity.class);
+                            //startActivity(profileIntent);
+                            //finish();
                             //findViewById(R.id.bt_signout).setVisibility(View.VISIBLE);
 
 

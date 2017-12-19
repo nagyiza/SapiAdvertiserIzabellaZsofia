@@ -1,9 +1,11 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,12 +27,12 @@ import java.util.List;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters.RecyclerViewAdapter;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
 
-public class AdvertisementListActivity extends BaseActivity implements View.OnClickListener{
+public class AdvertisementListActivity extends BaseActivity implements View.OnClickListener, RecyclerViewAdapter.ItemClickListener, RecyclerViewAdapter.ItemLongClickListener{
 
     private String type; // all or my advertisement
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private TextView newTextView;
 
@@ -51,6 +53,7 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
 
         //menu
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        iii(R.layout.nav_header_profile);
         menuItemSelected(navigationView);
 
         Intent intent = getIntent();
@@ -76,11 +79,22 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
         recyclerView.setLayoutManager(layoutManager);
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
 
-        mAdapter = new RecyclerViewAdapter(advertisements);
+        mAdapter = new RecyclerViewAdapter(AdvertisementListActivity.this, advertisements);
         recyclerView.setAdapter(mAdapter);
 
         LoadAdvertisement();
+        LoadProfileImage();
+    }
 
+<<<<<<< HEAD
+=======
+    private void iii(int nav_header_profile) {
+
+    }
+
+    private void LoadProfileImage() {
+
+>>>>>>> d6a1f5c34497b7d9472bf8536eb5088139afab97
     }
 
     private void LoadAdvertisement() {
@@ -88,37 +102,45 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //firebaseElements.add((ArrayList<String>) dataSnapshot.getValue());
-
+                String id = (String) dataSnapshot.getKey();
                 for (DataSnapshot adventisementKey : dataSnapshot.getChildren()) {
                     String title = (String) adventisementKey.child("title").getValue();
                     String detail = (String) adventisementKey.child("detail").getValue();
                     String user = (String) adventisementKey.child("userId").getValue();
+                    String advId = (String) adventisementKey.child("id").getValue();
                     ArrayList<String> photos = (ArrayList<String>) adventisementKey.child("photo").getValue();
                     //for (DataSnapshot ds : adventisementKey.child("photos").getChildren()) {
                     //    photos.add((String) ds.getValue());
                     //}
-                    if(type.equals("myAdvertisement")){
-                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                        if(currentUser == null){
-                            Toast.makeText(AdvertisementListActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AdvertisementListActivity.this, SignInActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }else {
-                            if (currentUser.getUid().toString().equals(user)) {
-                                Advertisement adv = new Advertisement(title, detail, "", user, photos);
-                                advertisements.add(adv);
+                    String hide = (String) adventisementKey.child("hide").getValue();
+                    if(hide.equals("false")) { //if the advertisement not is hide
+                        if (type.equals("myAdvertisement")) {
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                            if (currentUser == null) {
+                                Toast.makeText(AdvertisementListActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(AdvertisementListActivity.this, SignInActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                if (currentUser.getUid().toString().equals(user)) {
+                                    Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                                    adv.setId(advId);
+                                    advertisements.add(adv);
+                                }
                             }
+                        } else { // all advertisement
+                            Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                            adv.setId(advId);
+                            advertisements.add(adv);
                         }
-                    }else{ // all advertisement
-                        Advertisement adv = new Advertisement(title, detail, "", user, photos);
-                        advertisements.add(adv);
                     }
 
                 }
 
 
-                mAdapter = new RecyclerViewAdapter(advertisements);
+                mAdapter = new RecyclerViewAdapter(AdvertisementListActivity.this, advertisements);
+                mAdapter.setClickListener(AdvertisementListActivity.this);
+                mAdapter.setLongClickListener(AdvertisementListActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
             @Override
@@ -153,5 +175,53 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
             finish();
         }
 
+    }
+
+    //detail
+    @Override
+    public void onItemClick(View v, int position) {
+        Intent intent = new Intent(AdvertisementListActivity.this, AdvertisementData.class);
+        intent.putExtra("Advertisement", advertisements.get(position));
+        startActivity(intent);
+    }
+
+    //remove (hide)
+    @Override
+    public void onItemLongClick(View v, final int position) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user.getUid().equals(mAdapter.getUserId(position))){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdvertisementListActivity.this);
+            // set title
+            alertDialogBuilder.setTitle("Delete the contact");
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage("Are you sure?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //implement yes
+                            database.getReference("advertisements").child(mAdapter.getItem(position)).child("hide").setValue("true");
+
+                            //mAdapter.remove(position);
+                            //mAdapter = new RecyclerViewAdapter(AdvertisementListActivity.this, advertisements);
+                            //recyclerView.setAdapter(mAdapter);
+                            //TODO
+                            finish();
+                            Intent intent = new Intent(AdvertisementListActivity.this, AdvertisementListActivity.class);
+                            intent.putExtra("Type", type);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // implement no
+                        }
+                    });
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // show it
+            alertDialog.show();
+
+        }
     }
 }
