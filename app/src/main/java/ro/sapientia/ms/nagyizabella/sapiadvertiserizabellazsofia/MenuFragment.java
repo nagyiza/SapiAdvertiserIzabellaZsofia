@@ -114,7 +114,6 @@ public class MenuFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);

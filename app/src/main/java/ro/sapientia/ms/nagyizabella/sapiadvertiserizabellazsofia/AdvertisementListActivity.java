@@ -81,7 +81,6 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
 
         LoadAdvertisement();
 
-
     }
 
     private void LoadAdvertisement() {
