@@ -88,6 +88,12 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
         LoadAdvertisement();
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    private void iii(int nav_header_profile) {
+>>>>>>> 39aafefdf37a46296e9505803a78393c1dbee18c
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +115,7 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
                 return false;
             }
 
+<<<<<<< HEAD
         });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -119,6 +126,9 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
         });
 
         return super.onCreateOptionsMenu(menu);
+=======
+>>>>>>> d6a1f5c34497b7d9472bf8536eb5088139afab97
+>>>>>>> 39aafefdf37a46296e9505803a78393c1dbee18c
     }
 
 
