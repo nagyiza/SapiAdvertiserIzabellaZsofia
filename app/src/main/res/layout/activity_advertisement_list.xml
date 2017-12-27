@@ -22,9 +22,10 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/list_of_advertisement"
+            android:text="@string/advertisement_title"
             android:textSize="30sp"
             android:gravity="center"/>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_advertisement"
@@ -32,7 +33,6 @@
             android:layout_height="match_parent"
             android:layout_below="@id/tv_title"
             android:scrollbars="vertical" />
-
 
     </RelativeLayout>
 

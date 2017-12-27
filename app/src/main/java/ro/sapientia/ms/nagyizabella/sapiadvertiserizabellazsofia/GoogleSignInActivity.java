@@ -135,17 +135,12 @@ public class GoogleSignInActivity extends BaseActivity implements
 
                             try {
                                 User userModel = new User(user.getEmail(), "", "", "", "");
-                                mDatabase.child("users").child(user.getUid()).setValue(user);
+                                mDatabase.child("users").child(user.getUid()).setValue(userModel);
 
                             }catch (NullPointerException e){
                                 Log.d("GOOGLE",e.getMessage());
                             }
 
-                            //next activity
-                            //Intent profileIntent = new Intent(GoogleSignInActivity.this, ProfileActivity.class);
-                            //startActivity(profileIntent);
-                            //finish();
-                            //findViewById(R.id.bt_signout).setVisibility(View.VISIBLE);
 
 
                         } else {

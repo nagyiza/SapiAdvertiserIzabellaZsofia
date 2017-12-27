@@ -98,7 +98,6 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
 
         if (images.get(imagePosition) != null && images.get(imagePosition).length() != 0) {
             Glide.with(AdvertisementData.this).load(images.get(imagePosition))
-                    .override(100, 100)
                     .into(image);
         }
     }

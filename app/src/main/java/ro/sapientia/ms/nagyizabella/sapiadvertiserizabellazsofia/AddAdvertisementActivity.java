@@ -253,41 +253,52 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
         mStorageRef = FirebaseStorage.getInstance().getReference();
         counter = 1;
         final String key =  mDatabase.push().getKey();
-        for (Uri photoUri: fileUri)
-        {
-            // [START get_child_ref]
-            // Get a reference to store file at photos/<FILENAME>.jpg
+        if(fileUri == null){
+            Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+            adv.setId(key);
+            mDatabase.child(key).setValue(adv);
+            hideProgressDialog();
 
-            final StorageReference photoRef = mStorageRef.child("AdvertisementPhotos").child(key).child(photoUri.getLastPathSegment());
-            // [END get_child_ref]
+            Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
+            intent.putExtra("Type", "allAdvertisement");
+            startActivity(intent);
+            finish();
+        }else {
+            for (Uri photoUri : fileUri) {
+                // [START get_child_ref]
+                // Get a reference to store file at photos/<FILENAME>.jpg
 
-            photoRef.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(AddAdvertisementActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
-                    hideProgressDialog();
+                final StorageReference photoRef = mStorageRef.child("AdvertisementPhotos").child(key).child(photoUri.getLastPathSegment());
+                // [END get_child_ref]
 
-                    downloadUri.add(taskSnapshot.getDownloadUrl().toString());
+                photoRef.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(AddAdvertisementActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
 
-                    if(counter == fileUri.size()) {
-                        Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
-                        adv.setId(key);
-                        mDatabase.child(key).setValue(adv);
+                        downloadUri.add(taskSnapshot.getDownloadUrl().toString());
 
-                        Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
-                        intent.putExtra("Type", "allAdvertisement");
-                        startActivity(intent);
-                        finish();
+                        if (counter == fileUri.size()) {
+                            Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+                            adv.setId(key);
+                            mDatabase.child(key).setValue(adv);
+
+                            Intent intent = new Intent(AddAdvertisementActivity.this, AdvertisementListActivity.class);
+                            intent.putExtra("Type", "allAdvertisement");
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        counter++;
                     }
-
-                    counter++;
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AddAdvertisementActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddAdvertisementActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
 
 

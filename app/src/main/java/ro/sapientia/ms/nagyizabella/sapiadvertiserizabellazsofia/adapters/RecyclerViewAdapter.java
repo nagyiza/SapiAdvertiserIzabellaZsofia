@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.R;
@@ -25,9 +28,10 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertis
  * Created by Izabella on 2017-11-26.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>  implements Filterable {
     private Context context;
     private List<Advertisement> values;
+    private List<Advertisement> values2;
 
     private LayoutInflater inflater;
     //private List<Uri> photos = null;
@@ -89,8 +93,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public RecyclerViewAdapter(Context context, List<Advertisement> myDataset) {
+        super();
         this.context = context;
         values = myDataset;
+        values2 = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
@@ -172,9 +178,59 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return values.get(pos).getUserId();
     }
 
-    public void remove(int pos){
-        values.remove(pos);
-        notifyItemRemoved(pos);
+    public void updateData(List<Advertisement> advertisements) {
+        values.clear();
+        values.addAll(advertisements);
+        notifyDataSetChanged();
     }
 
+    public void filter(String searchText){
+        List<Advertisement> result = new ArrayList<Advertisement>();
+        for(Advertisement adv : values){
+            if(adv.getDetail().contains(searchText) || adv.getTitle().contains(searchText)){
+                result.add(adv);
+            }
+        }
+        values.clear();
+        values.addAll(result);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+
+                    values = values2;
+                } else {
+
+                    ArrayList<Advertisement> filteredList = new ArrayList<>();
+
+                    for (Advertisement adv : values2) {
+
+                        if (adv.getTitle().toLowerCase().contains(charString) || adv.getDetail().toLowerCase().contains(charString)) {
+
+                            filteredList.add(adv);
+                        }
+                    }
+
+                    values = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = values;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                values = (ArrayList<Advertisement>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 }

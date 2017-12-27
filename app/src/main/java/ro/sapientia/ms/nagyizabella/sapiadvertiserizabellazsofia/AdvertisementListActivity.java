@@ -8,7 +8,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +57,6 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
 
         //menu
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
-        iii(R.layout.nav_header_profile);
         menuItemSelected(navigationView);
 
         Intent intent = getIntent();
@@ -83,16 +86,41 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
         recyclerView.setAdapter(mAdapter);
 
         LoadAdvertisement();
-        LoadProfileImage();
     }
 
-    private void iii(int nav_header_profile) {
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.menuSearch);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mAdapter.getFilter().filter(s);
+
+                return false;
+            }
+
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                //mAdapter.updateData(advertisements);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void LoadProfileImage() {
-
-    }
 
     private void LoadAdvertisement() {
         myRef.child("advertisements").addValueEventListener(new ValueEventListener() {
@@ -199,14 +227,8 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
                             //implement yes
                             database.getReference("advertisements").child(mAdapter.getItem(position)).child("hide").setValue("true");
 
-                            //mAdapter.remove(position);
-                            //mAdapter = new RecyclerViewAdapter(AdvertisementListActivity.this, advertisements);
-                            //recyclerView.setAdapter(mAdapter);
-                            //TODO
-                            finish();
-                            Intent intent = new Intent(AdvertisementListActivity.this, AdvertisementListActivity.class);
-                            intent.putExtra("Type", type);
-                            startActivity(intent);
+                            advertisements.remove(position);
+                            mAdapter.updateData(advertisements);
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
