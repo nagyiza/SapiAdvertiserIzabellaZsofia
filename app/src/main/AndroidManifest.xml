@@ -34,7 +34,6 @@
         <activity android:name=".ProfileActivity" />
         <!-- <activity android:name=".CircleImageView" /> -->
         <activity android:name=".AddAdvertisementActivity" />
-        <activity android:name=".MenuActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".AdvertisementListActivity" />
         <activity android:name=".AdvertisementData"

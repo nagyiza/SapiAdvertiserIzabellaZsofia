@@ -61,7 +61,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:textSize="72sp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/grey_200"
                 android:text="@string/prev"/>
             <TextView
                 android:id="@+id/next_image"
@@ -71,7 +71,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="20dp"
                 android:textSize="72sp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/grey_200"
                 android:text="@string/next"/>
             </LinearLayout>
 

@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
@@ -77,6 +78,10 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
 
         AdvertisementDetail();
         images = adv.getPhoto();
+        if(images == null){
+            images = new ArrayList<String>();
+            images.add("");
+        }
         AdvertisementImages("");
     }
 

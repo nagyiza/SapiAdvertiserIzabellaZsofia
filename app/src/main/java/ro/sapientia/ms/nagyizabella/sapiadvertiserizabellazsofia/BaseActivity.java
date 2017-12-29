@@ -154,28 +154,4 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
     }
- /*
-    public void isUserCurrentlyLogin(final Context context){
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(null != user){
-                    Intent profileIntent = new Intent(context, MenuActivity.class);
-                    context.startActivity(profileIntent);
-                }else{
-                    Intent loginIntent = new Intent(context, SignInActivity.class);
-                    context.startActivity(loginIntent);
-                }
-            }
-        };
-    }
-  public FirebaseAuth firebaseAuth;
-    public void checkUserLogin(final Context context){
-        if(firebaseAuth.getCurrentUser() != null){
-            Intent profileIntent = new Intent(context, MenuActivity.class);
-            context.startActivity(profileIntent);
-        }
-    }*/
-
 }
