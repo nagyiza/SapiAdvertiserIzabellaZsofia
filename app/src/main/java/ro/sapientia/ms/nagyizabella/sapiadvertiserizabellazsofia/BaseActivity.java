@@ -43,8 +43,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public void menuItemSelected(NavigationView navigationView) {
 
-        profileImage();
-
         disableNavigationViewScrollbars(navigationView);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -104,47 +102,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private DatabaseReference mDatabase;
-    private void profileImage() {
-/*
-//googlenel kiakad
-        ViewGroup parent = (ViewGroup) findViewById(R.id.menu_header);
-        LayoutInflater inflater = (BaseActivity.this).getLayoutInflater();
-        View row = inflater.inflate(R.layout.nav_header_profile, parent, false);
-
-        final ImageView profileImage = row.findViewById(R.id.circleView);
-
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = "";
-        if(!user.equals(null)) {
-            userid = user.getUid();
-        }
-        final String id;
-        if(userid.equals("")){
-            id = "";
-        }else{
-            id = userid;
-        }
-        mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String image = dataSnapshot.child("profilImage").getValue().toString();
-                if (image != null && image.length() != 0 && !id.equals("")) {
-                    Glide.with(BaseActivity.this).load(image)
-                            .override(50, 50)
-                            .into(profileImage);
-                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-        });
-        row.setTag(profileImage);
-        */
-    }
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {

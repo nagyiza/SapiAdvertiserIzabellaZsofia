@@ -2,8 +2,6 @@ package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,12 +10,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
+    /**
+     * The button to the sign in or sign up
+     * When click open the SignInActivity
+     */
     private Button mSignInButton;
+    /**
+     * The button to the application, without login
+     * When click open the AdvertisementListActivity, but the guest don't know add, remove advertisement, just see
+     */
     private Button mGuestButton;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-
+    /**
+     * In the method find view elements by id and add listener on the buttons
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,35 +36,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mSignInButton.setOnClickListener(this);
         mGuestButton.setOnClickListener(this);
 
-
-        // Write a message to the database
-        //try {
-        //    database = FirebaseDatabase.getInstance();
-        //    myRef = database.getReference();
-
-        //    myRef.child("izabella");
-        //    myRef.setValue("valami").addOnFailureListener(new OnFailureListener() {
-        //       @Override
-        //        public void onFailure(@NonNull Exception e) {
-        //           Log.d(LOG_TAG, e.getLocalizedMessage());
-        //       }
-        //   });
-        //   Toast.makeText(this,"success", Toast.LENGTH_LONG).show();
-
-        //}catch(Exception e){
-        //    Toast.makeText(this,"failed", Toast.LENGTH_LONG).show();
-        //}
-
     }
 
-
-
+    /**
+     * Open the SignInActivity
+     */
     private void signIn() {
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Check someone is login, if yes, logout
+     * Open the AdvertisementListActivity
+     */
     private void guest() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser!=null){
@@ -69,6 +62,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         finish();
     }
 
+    /**
+     * This is a listener for the buttons
+     * @param v this is view element, which clicked
+     */
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -82,10 +79,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
-
-
-
-
-
 }
 
