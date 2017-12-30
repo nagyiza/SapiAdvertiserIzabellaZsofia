@@ -84,12 +84,32 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/layout_forgetpassword"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_password"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/forget_pssw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot your password?"
+            android:gravity="right"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_forgetpassword"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/bt_signin"

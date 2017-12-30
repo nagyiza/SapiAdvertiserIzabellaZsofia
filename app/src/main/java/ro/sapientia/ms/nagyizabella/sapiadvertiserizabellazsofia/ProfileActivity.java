@@ -34,7 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements  View.OnClickListener{
 
     private static final String LOG_TAG = "ProfileActivity";
     private int RESULT_LOAD_IMAGE = 1;
@@ -52,6 +52,7 @@ public class ProfileActivity extends BaseActivity {
     private EditText EditConfirmPassword;
 
     private TextView ProfileName;
+    private TextView PhoneNumber;
 
     private Button MyadvertisermentButton;
     private Button saveEditButton;
@@ -64,8 +65,12 @@ public class ProfileActivity extends BaseActivity {
     private Uri imageURI = null;
     private LayoutInflater inflater;
 
-    public ProfileActivity() {
-    }
+    //for save image
+    private String downloadUri;
+    private int counter;
+    private StorageReference mStorageRef;
+    //----
+
 
     // Click listeners
     @Override
@@ -89,206 +94,30 @@ public class ProfileActivity extends BaseActivity {
         EditConfirmPassword = (EditText)findViewById(R.id.confirm_password);
 
         ProfileName = (TextView)  findViewById(R.id.profile_name);
+        PhoneNumber = (TextView) findViewById(R.id.tel);
 
         saveEditButton = (Button)findViewById(R.id.bt_save);
         MyadvertisermentButton = (Button)findViewById(R.id.my_advertiserment);
 
-//getCurrentUser to FireBase
+        profilePhoto = (ImageView)findViewById(R.id.cv_profileImage);
+
+        //get Current User to FireBase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
 
-//Modifying data on Database
-        mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    EditEmail.setText(dataSnapshot.child("email").getValue().toString());
-                    EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
-                    EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
-                    String profileName = dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString();
-                    if (!profileName.equals("")) {
-                        ProfileName.setText(profileName);
-                    }
-                    EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
-                    String image = dataSnapshot.child("profilImage").getValue().toString();
-                    if (image != null && image.length() != 0) {
-                        Glide.with(ProfileActivity.this).load(image)
-                                .override(50, 50)
-                                .into(profilePhoto);
-                    }
+        //Get user's data in database and write in view
+        writeUserData(id);
 
 
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-        });
-
-
-        profilePhoto = (ImageView)findViewById(R.id.cv_profileImage);
-        profilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
-            }
-        });
-
-        //*--------------------------------------------
-
-        saveEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             //   showProgressDialog();
-
-                String profileEmail = EditEmail.getText().toString();
-                String profileFirstName = EditFistName.getText().toString();
-                String profileLastName = EditLastName.getText().toString();
-                String profilePhoneNumber = EditPhoneNumbers.getText().toString();
-                final String profilePassword = EditPassword.getText().toString();
-                String profileConfirmPassword = EditConfirmPassword.getText().toString();
-
-                if(validate(profileEmail, profileFirstName, profileLastName, profilePhoneNumber)) {
-                   final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user == null) {
-                        Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
-                    } else {
-
-                        String id = user.getUid();
-                        if (profileEmail != "") {
-                            //TODO authentifikalasnal is valtozzon meg
-                            mDatabase.child("users").child(id).child("email").setValue(profileEmail);
-                        }
-
-                        if (profileFirstName != "") {
-                            mDatabase.child("users").child(id).child("firstName").setValue(profileFirstName);
-                        }
-
-                        if (profileLastName != "") {
-                            mDatabase.child("users").child(id).child("lastName").setValue(profileLastName);
-                        }
-
-                        if (profilePhoneNumber != "") {
-                            mDatabase.child("users").child(id).child("phoneNumbers").setValue(profilePhoneNumber);
-                        }
-
-                        if (profilePassword != "" && profilePassword == profileConfirmPassword) {
-
-                            //TODO password megvaltoztatasa
-                            AuthCredential credential = EmailAuthProvider.getCredential("user@example.com", "password1234");
-                            final String email = user.getEmail();
-
-                            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        user.updatePassword(profilePassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(!task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
-
-                                                }else {
-                                                    Toast.makeText(getApplicationContext(), "Password Successfully Modified", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                            }
-                                        });
-                                    }else {
-                                        Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                        }
-
-                        if(bitmap != null){
-                            ImageSave(imageURI);
-                        }else{
-                            Intent addAdvertisementIntent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
-                            addAdvertisementIntent.putExtra("Type", "allAdvertisement");
-                            startActivity(addAdvertisementIntent);
-                            //finish();
-                        }
-
-
-                    }
-
-                }
-
-            }
-
-        });
-
-        MyadvertisermentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
-                intent.putExtra("Type", "myAdvertisement");
-                startActivity(intent);
-                finish();
-            }
-        });
+        profilePhoto.setOnClickListener(this);
+        saveEditButton.setOnClickListener(this);
+        MyadvertisermentButton.setOnClickListener(this);
 
     }
 
-
-//Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
-    private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
-
-        String MobilePattern = "[0-9]{10}";
-        //String email1 = email.getText().toString().trim();
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if (profileFirstName.length() > 15 || profileLastName.length() > 15) {
-            if (profileFirstName.length() > 15 ) {
-                Toast.makeText(getApplicationContext(), "pls enter less the 15 character in First Name", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            if (profileLastName.length() > 15 ) {
-                Toast.makeText(getApplicationContext(), "pls enter less the 15 character in Last Name", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        } else if (profileFirstName.length() == 0 || profileLastName.length() == 0 || profilePhoneNumber.length() == 0 || profileEmail.length() ==
-                0 ) {
-
-            Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
-            return false;
-
-        }
-
-         else if(!profileEmail.toString().matches(emailPattern)) {
-
-            Toast.makeText(getApplicationContext(),"Please Enter Valid Email Address",Toast.LENGTH_SHORT).show();
-            return false;
-
-        } else if(!profilePhoneNumber.toString().matches(MobilePattern)) {
-
-            Toast.makeText(getApplicationContext(), "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
-            return false;
-
-        }
-          /*  else if(profilePassword !=profileConfirmPassword) {
-
-            Toast.makeText(getApplicationContext(), "ProfilePassword and ConfirmPassword not equal", Toast.LENGTH_SHORT).show();
-            return false;
-
-        }*/
-
-        return true;
-    }
-
+/*
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
-
-        // Write new user
-     // writeNewUser(user.getUid(),username,user.getEmail(),user.getFirstName(),user.getLastName(),user.getPhoneNumer(),user.getPassword(),user.getConfirmPassword());
-
-        // Go to Next Activity
-        //startActivity(new Intent(SignInActivity.this, MainActivity.class));
-        //finish();
     }
     private String usernameFromEmail(String email) {
         if (email.contains("@")) {
@@ -296,8 +125,7 @@ public class ProfileActivity extends BaseActivity {
         } else {
             return email;
         }
-    }
-
+    }*/
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -347,58 +175,220 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void ImageSave(Uri mImageUri) {
-        uploadFromUri(mImageUri);
-    }
-    String downloadUri;
-    int counter;
-    // [START declare_ref]
-    private StorageReference mStorageRef;
-    // [END declare_ref]
-    private void uploadFromUri(final Uri fileUri) {
-
         mStorageRef = FirebaseStorage.getInstance().getReference();
         counter = 1;
         final String key =  mDatabase.push().getKey();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
 
-            // [START get_child_ref]
-            // Get a reference to store file at photos/<FILENAME>.jpg
+        final StorageReference photoRef = mStorageRef.child("UserProfilePhotos").child(id).child(mImageUri.getLastPathSegment());
 
-            final StorageReference photoRef = mStorageRef.child("UserProfilePhotos").child(id).child(fileUri.getLastPathSegment());
-            // [END get_child_ref]
+        photoRef.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(ProfileActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
 
-            photoRef.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(ProfileActivity.this, "Upload succes ", Toast.LENGTH_SHORT).show();
-                  //  hideProgressDialog();
+                downloadUri = taskSnapshot.getDownloadUrl().toString();
 
-                    downloadUri = taskSnapshot.getDownloadUrl().toString();
+                if(counter <= 2) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String id = user.getUid();
 
-                    if(counter <= 2) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String id = user.getUid();
+                    mDatabase.child("users").child(id).child("profilImage").setValue(downloadUri);
 
-                        mDatabase.child("users").child(id).child("profilImage").setValue(downloadUri);
-
-                        Intent intent = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
-                        intent.putExtra("Type", "allAdvertisement");
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    counter++;
-
-
+                    Intent intent = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                    intent.putExtra("Type", "allAdvertisement");
+                    startActivity(intent);
+                    finish();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
-                }
-            });
 
+                counter++;
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+
+    //Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
+    private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
+
+        String MobilePattern = "[0-9]{10}";
+        //String email1 = email.getText().toString().trim();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (profileFirstName.length() > 15 || profileLastName.length() > 15) {
+            if (profileFirstName.length() > 15 ) {
+                Toast.makeText(getApplicationContext(), "Enter less the 15 character in First Name", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (profileLastName.length() > 15 ) {
+                Toast.makeText(getApplicationContext(), "Enter less the 15 character in Last Name", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else if (profileFirstName.length() == 0 || profileLastName.length() == 0 || profilePhoneNumber.length() == 0 || profileEmail.length() ==
+                0 ) {
+
+            Toast.makeText(getApplicationContext(), "Fill the empty fields", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+
+        else if(!profileEmail.toString().matches(emailPattern)) {
+
+            Toast.makeText(getApplicationContext(),"Enter Valid Email Address",Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if(!profilePhoneNumber.toString().matches(MobilePattern)) {
+
+            Toast.makeText(getApplicationContext(), "Enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+
+        switch (i) {
+            case R.id.bt_save:
+                saveAdvertisement();
+                break;
+            case R.id.my_advertiserment:
+                myAdvertisement();
+                break;
+            case R.id.cv_profileImage:
+                changeProfileImage();
+        }
+    }
+
+    private void changeProfileImage() {
+        final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
+    }
+
+    private void myAdvertisement() {
+        Intent intent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+        intent.putExtra("Type", "myAdvertisement");
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveAdvertisement() {
+        //   showProgressDialog();
+        String profileEmail = EditEmail.getText().toString();
+        String profileFirstName = EditFistName.getText().toString();
+        String profileLastName = EditLastName.getText().toString();
+        String profilePhoneNumber = EditPhoneNumbers.getText().toString();
+        final String profilePassword = EditPassword.getText().toString();
+        String profileConfirmPassword = EditConfirmPassword.getText().toString();
+
+        if(validate(profileEmail, profileFirstName, profileLastName, profilePhoneNumber)) {
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                Toast.makeText(ProfileActivity.this, "Not exist user", Toast.LENGTH_SHORT).show();
+            } else {
+
+                String id = user.getUid();
+                if (profileEmail != "") {
+                    //TODO authentifikalasnal is valtozzon meg
+                    mDatabase.child("users").child(id).child("email").setValue(profileEmail);
+                }
+
+                if (profileFirstName != "") {
+                    mDatabase.child("users").child(id).child("firstName").setValue(profileFirstName);
+                }
+
+                if (profileLastName != "") {
+                    mDatabase.child("users").child(id).child("lastName").setValue(profileLastName);
+                }
+
+                if (profilePhoneNumber != "") {
+                    mDatabase.child("users").child(id).child("phoneNumbers").setValue(profilePhoneNumber);
+                }
+
+                if (profilePassword != "" && profilePassword == profileConfirmPassword) {
+
+                    //TODO password megvaltoztatasa
+                    AuthCredential credential = EmailAuthProvider.getCredential("user@example.com", "password1234");
+                    final String email = user.getEmail();
+
+                    user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                user.updatePassword(profilePassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Password Successfully Modified", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                }
+
+                if (bitmap != null) {
+                    ImageSave(imageURI);
+                } else {
+                    Intent addAdvertisementIntent = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
+                    addAdvertisementIntent.putExtra("Type", "allAdvertisement");
+                    startActivity(addAdvertisementIntent);
+                    //finish();
+                }
+
+
+            }
+        }
+        }
+
+    public void writeUserData(String id) {
+        mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                EditEmail.setText(dataSnapshot.child("email").getValue().toString());
+                EditFistName.setText(dataSnapshot.child("firstName").getValue().toString());
+                EditLastName.setText(dataSnapshot.child("lastName").getValue().toString());
+                String profileName = dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString();
+                if (!profileName.equals("")) {
+                    ProfileName.setText(profileName);
+                }else{
+                    ProfileName.setText("Name");
+                }
+                EditPhoneNumbers.setText(dataSnapshot.child("phoneNumbers").getValue().toString());
+                PhoneNumber.setText(EditPhoneNumbers.getText());
+
+                String image = dataSnapshot.child("profilImage").getValue().toString();
+                if (image != null && image.length() != 0) {
+                    Glide.with(ProfileActivity.this).load(image)
+                            .override(50, 50)
+                            .into(profilePhoto);
+                }
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+    }
 }

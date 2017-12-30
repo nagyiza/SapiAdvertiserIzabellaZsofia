@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,6 +36,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private Button mSignInButton;
     private Button mGoogleButton;
     private Button mFacebookButton;
+    private TextView mForgetPassword;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -50,16 +52,19 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mAuth = FirebaseAuth.getInstance();
 
         // Views
-        mEmail = findViewById(R.id.et_email);
-        mPassword = findViewById(R.id.et_password);
-        mSignInButton = findViewById(R.id.bt_signin);
-        mGoogleButton = findViewById(R.id.google_btn);
-        mFacebookButton = findViewById(R.id.facebook_btn);
+        mEmail = (EditText) findViewById(R.id.et_email);
+        mPassword = (EditText) findViewById(R.id.et_password);
+        mSignInButton = (Button) findViewById(R.id.bt_signin);
+        mGoogleButton = (Button) findViewById(R.id.google_btn);
+        mFacebookButton = (Button) findViewById(R.id.facebook_btn);
+        mForgetPassword = (TextView) findViewById(R.id.forget_pssw);
 
         // Click listeners
         mSignInButton.setOnClickListener(this);
         mGoogleButton.setOnClickListener(this);
         mFacebookButton.setOnClickListener(this);
+        mForgetPassword.setOnClickListener(this);
+
 
     }
     @Override
@@ -74,34 +79,61 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private void signIn() {
         Log.d(LOG_TAG, "signIn");
-        if (!validateForm()) {
-            return;
-        }
 
         showProgressDialog();
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(LOG_TAG, "signIn:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
+        if(mSignInButton.getText().toString().equals("Send Email")){
+            SendEmail(email);
+            hideProgressDialog();
+        }else {
 
+            if (!validateForm()) {
+                hideProgressDialog();
+                return;
+            }
+
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(LOG_TAG, "signIn:onComplete:" + task.isSuccessful());
+                    hideProgressDialog();
+
+                    if (task.isSuccessful()) {
+                        //onAuthSuccess(task.getResult().getUser());
+                        Toast.makeText(SignInActivity.this, "Sign In", Toast.LENGTH_SHORT).show();
+                        Intent profileIntent = new Intent(SignInActivity.this, AdvertisementListActivity.class);
+                        profileIntent.putExtra("Type", "allAdvertisement");
+                        startActivity(profileIntent);
+                        finish();
+                    } else {
+                        signUp();
+                    }
+                }
+            });
+        }
+    }
+
+    private void SendEmail(String email) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            //onAuthSuccess(task.getResult().getUser());
-                            Toast.makeText(SignInActivity.this, "Sign In",
-                                    Toast.LENGTH_SHORT).show();
-                            Intent profileIntent = new Intent(SignInActivity.this, AdvertisementListActivity.class);
-                            profileIntent.putExtra("Type", "allAdvertisement");
-                            startActivity(profileIntent);
-                            finish();
+                            mForgetPassword.setVisibility(View.VISIBLE);
+                            mPassword.setVisibility(View.VISIBLE);
+
+                            mSignInButton.setText("SIGN IN / UP");
+
                         } else {
-                            signUp();
+                            Toast.makeText(SignInActivity.this, "The email send failed", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+
     }
 
     private void signUp() {
@@ -196,7 +228,16 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             case R.id.facebook_btn:
                 facebookSignIn();
                 break;
+            case R.id.forget_pssw:
+                ForgetPassword();
         }
+    }
+
+    private void ForgetPassword() {
+        mForgetPassword.setVisibility(View.INVISIBLE);
+        mPassword.setVisibility(View.INVISIBLE);
+
+        mSignInButton.setText("Send Email");
     }
 
     private void googleSignIn() {
