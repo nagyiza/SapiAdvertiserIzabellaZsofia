@@ -27,21 +27,38 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 public class GoogleSignInActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
-
+    /**
+     * Database reference object
+     */
     private DatabaseReference mDatabase;
 
+    /**
+     * Tag for the logging
+     */
     private static final String TAG = "GoogleActivity";
+    /**
+     * It is the identification of google sign in
+     */
     private static final int RC_SIGN_IN = 9001;
+    /**
+     * It is the identification of facebook sign in
+     */
     private static final int RC_SIGN_IN_FACEBOOK = 9002;
 
-
-    // [START declare_auth]
+    /**
+     * The FirebaseAuth object
+     */
     private FirebaseAuth mAuth;
-    // [END declare_auth]
-
+    /**
+     * Google api object
+     */
     private GoogleApiClient mGoogleApiClient;
 
-
+    /**
+     * Configure Google Sign In
+     * Get database firebase database and firebase auth
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +86,9 @@ public class GoogleSignInActivity extends BaseActivity implements
         signIn();
     }
 
-    // [START on_start_check_user]
+    /**
+     * Check if user is signed in (non-null) and update UI accordingly.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -77,10 +96,14 @@ public class GoogleSignInActivity extends BaseActivity implements
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
-    // [END on_start_check_user]
 
 
-    // [START onactivityresult]
+    /**
+     * This method runs after choose the google account(google or facebook)
+     * @param requestCode It is an identification, one code
+     * @param resultCode It is tell the result is oke
+     * @param data It is the data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -112,9 +135,11 @@ public class GoogleSignInActivity extends BaseActivity implements
             }
         }
     }
-    // [END onactivityresult]
 
-    // [START auth_with_google]
+    /**
+     * Authentification with google
+     * @param acct
+     */
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
@@ -158,9 +183,11 @@ public class GoogleSignInActivity extends BaseActivity implements
                     }
                 });
     }
-    // [END auth_with_google]
 
-    // [START signin]
+    /**
+     * Open the google sign in panel
+     * Select the google account
+     */
     private void signIn() {
         Intent intent = getIntent();
         if(intent != null) {
@@ -183,11 +210,11 @@ public class GoogleSignInActivity extends BaseActivity implements
 
 
     }
-    // [END signin]
 
-
-
-
+    /**
+     * If the connection faild
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
@@ -196,25 +223,13 @@ public class GoogleSignInActivity extends BaseActivity implements
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Go to the back window
+     */
     private void back(){
         Intent intent = new Intent(GoogleSignInActivity.this, SignInActivity.class);
         startActivity(intent);
     }
-
-    /*private void signOut() {
-        FirebaseAuth.getInstance().signOut();
-        // Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                   public void onResult(@NonNull Status status) {
-                        back();
-                    }
-                });
-        back();
-        Toast.makeText(GoogleSignInActivity.this,"Signed out", Toast.LENGTH_SHORT).show();
-
-    }*/
 
 }
 

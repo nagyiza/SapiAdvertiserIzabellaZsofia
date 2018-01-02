@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by Izabella on 2017-11-20.
+ * Model of user data
  */
 
 public class Advertisement implements Serializable{

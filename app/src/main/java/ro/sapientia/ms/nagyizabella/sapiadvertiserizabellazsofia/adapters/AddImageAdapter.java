@@ -16,13 +16,31 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.R;
 
 /**
  * Created by Izabella on 2017-11-20.
+ * This adapter display the images in grid view, when the user adding new advertisement
  */
 
 public class AddImageAdapter extends ArrayAdapter {
+    /**
+     * This is the activity context, which use the adapter
+     */
     private Context context;
+    /**
+     * The layout id, in which is the image view xml
+     * The image view's id
+     */
     private int layoutResourceId;
+    /**
+     * List of the pictures
+     * This adapter display this pictures
+     */
     private List<Bitmap> data = new ArrayList<Bitmap>();
 
+    /**
+     * Class constructor
+     * @param context Activity context
+     * @param layoutResourceId The image view's id
+     * @param data Pictures
+     */
     public AddImageAdapter(Context context, int layoutResourceId, List<Bitmap> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
@@ -30,6 +48,13 @@ public class AddImageAdapter extends ArrayAdapter {
         this.data = data;
     }
 
+    /**
+     * Get the view, in which the adapter display the pictures
+     * @param position The picture's position from the list, which want to show
+     * @param convertView  The convert view
+     * @param parent  The view group
+     * @return The gid view's row
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;

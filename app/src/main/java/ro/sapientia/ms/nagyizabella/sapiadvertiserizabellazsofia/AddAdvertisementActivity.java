@@ -135,7 +135,7 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
 
     /**
      * In the method find view elements by id and add listener on the buttons
-     * Get database reference and firebase auth
+     * Set database reference and firebase auth
      * Display menu
      * @param savedInstanceState
      */
@@ -238,9 +238,9 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
      * Get data in the param data, this is the image uri
      * Save bitmap in the list, and save cursors.
      * Display the images in the grid view with an adapter
-     * @param requestCode it is an identification, one code
-     * @param resultCode it is tell the result is oke
-     * @param data  it is the data, so the pictures
+     * @param requestCode It is an identification, one code
+     * @param resultCode It is tell the result is oke
+     * @param data  It is the data, so the pictures
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

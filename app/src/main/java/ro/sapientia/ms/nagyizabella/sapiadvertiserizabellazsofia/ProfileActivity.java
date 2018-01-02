@@ -36,7 +36,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends BaseActivity implements  View.OnClickListener{
     /**
-     * Tag for the profile
+     * Tag for the logging
      */
     private static final String LOG_TAG = "ProfileActivity";
     /**
@@ -114,11 +114,14 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
      * Image in format bitmap
      */
     private Bitmap bitmap = null; // list
-    private Uri imageURI = null;
-    private LayoutInflater inflater;
     /**
-     * For Image Save
+     * Image in format uri
      */
+    private Uri imageURI = null;
+    /**
+     * For the create a new view
+     */
+    private LayoutInflater inflater;
     /**
      * When upload a picture in the storage, get bach the download uri
      * In this list are the pictures's download uris, which save in the database
@@ -200,16 +203,16 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
      * This method runs after choose the pictures
      * Get data in the param data, this is the image uri
      * Save bitmap in the list, and save cursors.
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode It is an identification, one code
+     * @param resultCode It is tell the result is oke
+     * @param data It is the data, so the user profile image
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         bitmap = null;
         imageURI = null;
         try {
-            // When an Image is picked
+            // An Image is picked
             if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -251,7 +254,7 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
     }
     /**
      * In the method the image is saved in the firebase Storage
-     * @param mImageUri
+     * @param mImageUri The picture's uri, which upload in storage and convert to string and download/update in database
      */
     private void ImageSave(Uri mImageUri) {
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -295,7 +298,6 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
 
     /**
      * In the method validate profileEmail,profileFirstName,profileLastName and profilePhoneNumber.
-     *
      * @param profileEmail
      * @param profileFirstName
      * @param profileLastName
@@ -349,7 +351,7 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
 
         switch (i) {
             case R.id.bt_save:
-                saveAdvertisement();
+                saveProfileData();
                 break;
             case R.id.my_advertiserment:
                 myAdvertisement();
@@ -379,9 +381,9 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
     }
 
     /**
-     * In the method saved
+     * In the method saved the profile data
      */
-    private void saveAdvertisement() {
+    private void saveProfileData() {
         //   showProgressDialog();
         String profileEmail = EditEmail.getText().toString();
         String profileFirstName = EditFistName.getText().toString();
@@ -459,7 +461,7 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
     /**
      * This method write User Data
      * Here is the child sructure
-     * @param id
+     * @param id User id
      */
     public void writeUserData(String id) {
         mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {

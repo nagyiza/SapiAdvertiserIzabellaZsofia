@@ -26,21 +26,40 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertis
 
 /**
  * Created by Izabella on 2017-11-26.
+ * This adapter display the advertisement list in recycler view, when the user watching the advertisements
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>  implements Filterable {
+    /**
+     * This is the activity context, which use the adapter
+     */
     private Context context;
+    /**
+     * List of advertisement
+     * A advertisement is a modell class, which contain title, detail, pictures and userid
+     */
     private List<Advertisement> values;
+    /**
+     * Copy of the values
+     */
     private List<Advertisement> values2;
-
+    /**
+     * For the create the new view
+     */
     private LayoutInflater inflater;
-    //private List<Uri> photos = null;
+    /**
+     * Listener object for the item click
+     */
     private ItemClickListener mClick;
+    /**
+     * Listener object for the item long click
+     */
     private ItemLongClickListener mLongClick;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    /**
+     * Provide a reference to the views for each data item
+     * Complex data items may need more than one view per item, and you provide access to all the views for a data item in a view holder
+     */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         // each data item is just a string in this case
         public TextView txtTitle;
@@ -74,24 +93,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    /**
+     * Interface for item click listener
+     */
     public interface ItemClickListener{
         void onItemClick(View v, int position);
     }
 
+    /**
+     * Set the item click listener object
+     * @param item
+     */
     public void setClickListener(ItemClickListener item){
         this.mClick = item;
     }
-
+    /**
+     * Interface for item long click listener
+     */
     public interface ItemLongClickListener{
         void onItemLongClick(View v, int position);
     }
-
+    /**
+     * Set the item long click listener object
+     * @param item
+     */
     public void setLongClickListener(ItemLongClickListener item){
         this.mLongClick = item;
     }
 
-
-    // Provide a suitable constructor (depends on the kind of dataset)
+    /**
+     * Provide a suitable constructor (depends on the kind of dataset)
+     * @param context  The activity context, which use this adapter
+     * @param myDataset  The data of advertisements
+     */
     public RecyclerViewAdapter(Context context, List<Advertisement> myDataset) {
         super();
         this.context = context;
@@ -99,7 +133,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         values2 = myDataset;
     }
 
-    // Create new views (invoked by the layout manager)
+    /**
+     * Create new views (invoked by the layout manager)
+     * Create a view holder
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
@@ -113,7 +153,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    /**
+     * Replace the contents of a view (invoked by the layout manager)
+     * Get element from your dataset at this position
+     * Replace the contents of the view with that element
+     * Set the fields(title, detail) and display a picture with glide
+     * Get the user, who added the advertisement, and download the user's profile picture and display in a cycle view
+     * @param holder The view holder, the new view
+     * @param position The advertisement's position from the list, which want to show
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
@@ -164,37 +212,49 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-
-    // Return the size of your dataset (invoked by the layout manager)
+    /**
+     * Get the size of advertisements
+     * @return Return the size of your dataset (invoked by the layout manager)
+     */
     @Override
     public int getItemCount() {
         return values.size();
     }
 
+    /**
+     * Get a advertisement from the list
+     * @param pos The advertisement's position from the list
+     * @return The advertisement
+     */
     public String getItem(int pos) {
         return values.get(pos).getId();
     }
+
+    /**
+     * Get a user id from the list
+     * @param pos The advertisement's position from the list
+     * @return The user id.
+     */
     public String getUserId(int pos){
         return values.get(pos).getUserId();
     }
 
+    /**
+     * Update the advertisement list
+     * If the advertisement is amended or is deleted (hided)
+     * @param advertisements  New list of advertisement
+     */
     public void updateData(List<Advertisement> advertisements) {
         values.clear();
         values.addAll(advertisements);
         notifyDataSetChanged();
     }
 
-    public void filter(String searchText){
-        List<Advertisement> result = new ArrayList<Advertisement>();
-        for(Advertisement adv : values){
-            if(adv.getDetail().contains(searchText) || adv.getTitle().contains(searchText)){
-                result.add(adv);
-            }
-        }
-        values.clear();
-        values.addAll(result);
-    }
-
+    /**
+     * Get the filter
+     * For the search
+     * @return The Filter, in which is the search result
+     */
     @Override
     public Filter getFilter() {
         return new Filter() {

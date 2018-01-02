@@ -24,6 +24,10 @@ public class BaseActivity extends AppCompatActivity {
      */
     public FirebaseAuth.AuthStateListener mAuthListener;
     /**
+     * The database reference object
+     */
+    private DatabaseReference mDatabase;
+    /**
      *  Ready to start the progress dialog
      */
     public void showProgressDialog() {
@@ -45,7 +49,7 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * This method get User Id from FireBase
-     * @return
+     * @return user id
      */
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -55,9 +59,8 @@ public class BaseActivity extends AppCompatActivity {
      * This method is used to control the menu
      * This menu is a Navigator Drawer Menu
      * Link to the main page(home),Profile, My Advertiserment, All Advertiserment and Sign Out
-     * @param navigationView
+     * @param navigationView View of navigation menu
      */
-
     public void menuItemSelected(NavigationView navigationView) {
 
         disableNavigationViewScrollbars(navigationView);
@@ -141,11 +144,11 @@ public class BaseActivity extends AppCompatActivity {
         });
 
     }
-    /**
-     * The database reference object
-     */
-    private DatabaseReference mDatabase;
 
+    /**
+     * Disable the navigation menu
+     * @param navigationView View of navigation menu
+     */
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {
             NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
