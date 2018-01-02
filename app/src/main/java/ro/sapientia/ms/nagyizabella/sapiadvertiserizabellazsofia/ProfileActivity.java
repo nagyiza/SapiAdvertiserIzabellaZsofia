@@ -35,44 +35,112 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends BaseActivity implements  View.OnClickListener{
-
+    /**
+     * Tag for the profile
+     */
     private static final String LOG_TAG = "ProfileActivity";
+    /**
+     * It is the identification
+     */
     private int RESULT_LOAD_IMAGE = 1;
-
+    /**
+     * The database reference object
+     */
     private DatabaseReference mDatabase;
-    //the FirebaseAuth and AuthStateListener objects.
+    /**
+     * The FirebaseAuth object
+     */
     private FirebaseAuth mAuth;
-
     //Declare the fields
+    /**
+     * The edit text to profile email
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditEmail;
+    /**
+     * The edit text to profile First Name
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditFistName;
+    /**
+     * The edit text to profile Last Name
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditLastName;
+    /**
+     * The edit text to profile Phone Number
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditPhoneNumbers;
+    /**
+     * The edit text to profile Password
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditPassword;
+    /**
+     * The edit text to profile Confirm Password
+     * The edit text is in the activity_profile.xml
+     */
     private EditText EditConfirmPassword;
-
+    /**
+     * The text view to profile Profile Name
+     * The text view is in the activity_profile.xml
+     */
     private TextView ProfileName;
+    /**
+     * The text view to profile Phone Number
+     * The text view is in the activity_profile.xml
+     */
     private TextView PhoneNumber;
-
+    /**
+     * The button to the select My Advertiserment
+     */
     private Button MyadvertisermentButton;
+    /**
+     * The button to the select Save Profile Data
+     */
     private Button saveEditButton;
-
+    /**
+     * The image to the profile Photo View
+     */
     private ImageView profilePhoto;
 
-    //for image
+     //For Image
+    /**
+     * The cursor when an images is picked
+     */
     private String imagesEncoded;
+    /**
+     * Image in format bitmap
+     */
     private Bitmap bitmap = null; // list
     private Uri imageURI = null;
     private LayoutInflater inflater;
-
-    //for save image
+    /**
+     * For Image Save
+     */
+    /**
+     * When upload a picture in the storage, get bach the download uri
+     * In this list are the pictures's download uris, which save in the database
+     */
     private String downloadUri;
+    /**
+     * It is a counter, which count the pictures.
+     */
     private int counter;
+    /**
+     * The storage reference object
+     * In the firebase's sorage upload the pictures
+     */
     private StorageReference mStorageRef;
-    //----
-
 
     // Click listeners
+    /**
+     * In the method find view elements by id and add listener on the buttons
+     * Get database reference and firebase auth
+     * Display menu
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +150,7 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         menuItemSelected(navigationView);
 
+        //Firebase references
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -108,7 +177,7 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         //Get user's data in database and write in view
         writeUserData(id);
 
-
+        //listeners
         profilePhoto.setOnClickListener(this);
         saveEditButton.setOnClickListener(this);
         MyadvertisermentButton.setOnClickListener(this);
@@ -127,7 +196,14 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         }
     }*/
 
-
+    /**
+     * This method runs after choose the pictures
+     * Get data in the param data, this is the image uri
+     * Save bitmap in the list, and save cursors.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         bitmap = null;
@@ -173,7 +249,10 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-
+    /**
+     * In the method the image is saved in the firebase Storage
+     * @param mImageUri
+     */
     private void ImageSave(Uri mImageUri) {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         counter = 1;
@@ -214,8 +293,15 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         });
     }
 
-
-    //Validate  profileEmail,length profileFirstName,length profileLastName,profilePhoneNumber
+    /**
+     * In the method validate profileEmail,profileFirstName,profileLastName and profilePhoneNumber.
+     *
+     * @param profileEmail
+     * @param profileFirstName
+     * @param profileLastName
+     * @param profilePhoneNumber
+     * @return
+     */
     private boolean validate(String profileEmail, String profileFirstName, String profileLastName, String profilePhoneNumber) {
 
         String MobilePattern = "[0-9]{10}";
@@ -253,6 +339,10 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         return true;
     }
 
+    /**
+     * This is a listener for the buttons
+     * @param v this is view element, whitch clicked
+     */
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -269,12 +359,18 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         }
     }
 
+    /**
+     * This method is modify(change) the Profile Image
+     */
     private void changeProfileImage() {
         final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
     }
 
+    /**
+     * In the method is a intent call to AdvertisementListActivity
+     */
     private void myAdvertisement() {
         Intent intent  = new Intent(ProfileActivity.this, AdvertisementListActivity.class);
         intent.putExtra("Type", "myAdvertisement");
@@ -282,6 +378,9 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         finish();
     }
 
+    /**
+     * In the method saved
+     */
     private void saveAdvertisement() {
         //   showProgressDialog();
         String profileEmail = EditEmail.getText().toString();
@@ -299,7 +398,6 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
 
                 String id = user.getUid();
                 if (profileEmail != "") {
-                    //TODO authentifikalasnal is valtozzon meg
                     mDatabase.child("users").child(id).child("email").setValue(profileEmail);
                 }
 
@@ -317,7 +415,6 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
 
                 if (profilePassword != "" && profilePassword == profileConfirmPassword) {
 
-                    //TODO password megvaltoztatasa
                     AuthCredential credential = EmailAuthProvider.getCredential("user@example.com", "password1234");
                     final String email = user.getEmail();
 
@@ -359,6 +456,11 @@ public class ProfileActivity extends BaseActivity implements  View.OnClickListen
         }
         }
 
+    /**
+     * This method write User Data
+     * Here is the child sructure
+     * @param id
+     */
     public void writeUserData(String id) {
         mDatabase.child("users").child(id).addValueEventListener(new ValueEventListener() {
             @Override

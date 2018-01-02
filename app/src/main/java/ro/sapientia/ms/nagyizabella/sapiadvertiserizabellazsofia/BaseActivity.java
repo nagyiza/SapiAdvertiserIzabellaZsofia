@@ -15,31 +15,48 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 public class BaseActivity extends AppCompatActivity {
-
+    /**
+     * Declare progress dialog
+     */
     private ProgressDialog mProgressDialog;
+    /**
+     * The FirebaseAuth and AuthStateListener objects
+     */
     public FirebaseAuth.AuthStateListener mAuthListener;
-
+    /**
+     *  Ready to start the progress dialog
+     */
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setCancelable(false);
             mProgressDialog.setMessage("Loading...");
         }
-
         mProgressDialog.show();
     }
-
+    /**
+     * As soon as the page moves from this to another fragment
+     */
     public void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
 
+    /**
+     * This method get User Id from FireBase
+     * @return
+     */
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    //MENU
+    /**
+     * This method is used to control the menu
+     * This menu is a Navigator Drawer Menu
+     * Link to the main page(home),Profile, My Advertiserment, All Advertiserment and Sign Out
+     * @param navigationView
+     */
 
     public void menuItemSelected(NavigationView navigationView) {
 
@@ -49,7 +66,10 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
-
+        /**
+        * If you selected the profile
+        * Link to the Profile
+         */
                 if (id == R.id.nav_profile) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if(currentUser != null) {
@@ -59,25 +79,49 @@ public class BaseActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
                     }
-                } else if (id == R.id.nav_home) {
+                }
+                /**
+                 * If you selected the Home
+                 * Link to the main page(home)
+                 */
+                else if (id == R.id.nav_home) {
                     Intent intent = new Intent(BaseActivity.this, MainActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.nav_myadvert) {
+                }
+                /**
+                 * If you selected the  My Advertiserment
+                 * Link to the My Advertiserment
+                 */
+                else if (id == R.id.nav_myadvert) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if(currentUser != null) {
                         Intent intent = new Intent(BaseActivity.this, AdvertisementListActivity.class);
                         intent.putExtra("Type", "myAdvertisement");
                         startActivity(intent);
                         finish();
-                    }else{
+                    }
+                    /**
+                     * If you are not logged in, Navigate to the Main Page
+                     */
+                    else{
                         Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
                     }
-                } else if (id == R.id.nav_alladvert) {
+                }
+                /**
+                 * If you selected the All Advertiserment
+                 * Link to the All Advertiserment
+                 */
+                else if (id == R.id.nav_alladvert) {
                     Intent intent = new Intent(BaseActivity.this, AdvertisementListActivity.class);
                     intent.putExtra("Type", "allAdvertisement");
                     startActivity(intent);
                     finish();
-                }else if(id == R.id.nav_signout){
+                }
+                /**
+                 * If you selected the Sign Out
+                 * Link to the Home Page
+                 */
+                else if(id == R.id.nav_signout){
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if(currentUser != null){
                         FirebaseAuth.getInstance().signOut();
@@ -89,9 +133,6 @@ public class BaseActivity extends AppCompatActivity {
                         Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
                     }
                 }
-
-
-
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 assert drawer != null;
                 drawer.closeDrawer(GravityCompat.START);
@@ -100,7 +141,9 @@ public class BaseActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * The database reference object
+     */
     private DatabaseReference mDatabase;
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {

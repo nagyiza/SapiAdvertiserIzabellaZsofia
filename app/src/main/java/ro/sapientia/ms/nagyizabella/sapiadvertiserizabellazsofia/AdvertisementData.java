@@ -24,15 +24,24 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertis
 
 public class AdvertisementData extends BaseActivity implements View.OnClickListener{
 
-    //view
-    //images
+    /**
+     * The Image view to advertisement's images
+     */
     private ImageView image;
     private TextView next;
     private TextView prev;
 
+    /**
+     * The text View to advertisement title
+     */
     private TextView title;
+    /**
+     * The text View to advertisement detail
+     */
     private TextView detail;
+
     //maps
+
     private ImageView profileImage;
     private TextView user;
     private TextView phone;
