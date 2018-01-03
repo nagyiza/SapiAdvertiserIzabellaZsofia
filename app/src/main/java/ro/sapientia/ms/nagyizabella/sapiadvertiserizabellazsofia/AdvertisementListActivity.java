@@ -170,6 +170,8 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
                     //for (DataSnapshot ds : adventisementKey.child("photos").getChildren()) {
                     //    photos.add((String) ds.getValue());
                     //}
+                    String locationPos = (String) adventisementKey.child("location").getValue();
+
                     String hide = (String) adventisementKey.child("hide").getValue();
                     if(hide.equals("false")) { //if the advertisement not is hide
                         if (type.equals("myAdvertisement")) {
@@ -181,13 +183,13 @@ public class AdvertisementListActivity extends BaseActivity implements View.OnCl
                                 finish();
                             } else {
                                 if (currentUser.getUid().toString().equals(user)) {
-                                    Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                                    Advertisement adv = new Advertisement(title, detail, locationPos, user, photos);
                                     adv.setId(advId);
                                     advertisements.add(adv);
                                 }
                             }
                         } else { // all advertisement
-                            Advertisement adv = new Advertisement(title, detail, "", user, photos);
+                            Advertisement adv = new Advertisement(title, detail, locationPos, user, photos);
                             adv.setId(advId);
                             advertisements.add(adv);
                         }

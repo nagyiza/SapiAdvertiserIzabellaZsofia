@@ -1,14 +1,18 @@
 package ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +20,18 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +46,7 @@ import java.util.List;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.adapters.AddImageAdapter;
 import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.Advertisement;
 
-public class AddAdvertisementActivity extends BaseActivity implements View.OnClickListener{
+public class AddAdvertisementActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
     /**
      * Tag for the logging
@@ -85,10 +99,6 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
     private GridView ImageList;
 
     /**
-     * The button to the select location
-     */
-    private Button ButtonLocation;
-    /**
      * The button to the add images
      */
     private Button ButtonAddImage;
@@ -133,6 +143,13 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
     private StorageReference mStorageRef;
 
 
+    //for maps
+    private GoogleMap mMap;
+    private double latitude, longitude;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Location mylocation;
+    private LatLng locationPos;
+
     /**
      * In the method find view elements by id and add listener on the buttons
      * Set database reference and firebase auth
@@ -156,14 +173,19 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
         EditTitle = (EditText)findViewById(R.id.adver_title);
         EditDetail = (EditText)findViewById(R.id.adver_text);
         ImageList =(GridView)findViewById(R.id.list_image);
-        ButtonLocation = (Button)findViewById(R.id.adver_location);
         ButtonAddImage = (Button)findViewById(R.id.adver_image);
         ButtonAddAdvertisement = (Button)findViewById(R.id.add_adver);
 
         //listeners
-        ButtonLocation.setOnClickListener(this);
         ButtonAddImage.setOnClickListener(this);
         ButtonAddAdvertisement.setOnClickListener(this);
+
+        //for maps
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
     }
 
@@ -175,9 +197,6 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
     public void onClick(View view) {
         int i = view.getId();
         switch (i) {
-            case R.id.adver_location:
-                AddLocation();
-                break;
             case R.id.adver_image:
                 AddImage();
                 break;
@@ -226,12 +245,6 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
     }
 
-    /**
-     * This method open the maps, from where need to choose location
-     */
-    private void AddLocation() {
-
-    }
 
     /**
      * This method runs after choose the pictures
@@ -332,10 +345,15 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         counter = 1;
+        Double lat = locationPos.latitude;
+        Double lon = locationPos.longitude;
+        final String loc = lat.toString() + ";" + lon.toString();
+
         final String key =  mDatabase.push().getKey();
         if(mImageUri == null){
-            Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+            Advertisement adv = new Advertisement(title, detail, loc, id, downloadUri);
             adv.setId(key);
+            adv.setLocation(loc);
             mDatabase.child(key).setValue(adv);
             hideProgressDialog();
 
@@ -360,7 +378,7 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
                         downloadUri.add(taskSnapshot.getDownloadUrl().toString());
 
                         if (counter == mImageUri.size()) {
-                            Advertisement adv = new Advertisement(title, detail, "", id, downloadUri);
+                            Advertisement adv = new Advertisement(title, detail, loc, id, downloadUri);
                             adv.setId(key);
                             mDatabase.child(key).setValue(adv);
 
@@ -384,4 +402,60 @@ public class AddAdvertisementActivity extends BaseActivity implements View.OnCli
 
     }
 
+
+    //for map
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("latitude", latitude);
+                returnIntent.putExtra("longitude", longitude);
+                setResult(Activity.RESULT_OK, returnIntent);
+                locationPos = new LatLng(latitude, longitude);
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(locationPos).title("Location"));
+                //finish();
+            }
+        });
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //permissions.permissionRequest(this, permissions.permissions, permissions.PERMISSION_KEY);
+            Toast.makeText(AddAdvertisementActivity.this, "The permissions are oke",Toast.LENGTH_SHORT).show();
+        }
+        mMap.setMyLocationEnabled(true);
+        getLocation();
+    }
+
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //permissions.permissionRequest(this, permissions.permissions, permissions.PERMISSION_KEY);
+            Toast.makeText(AddAdvertisementActivity.this, "The permissions are oke",Toast.LENGTH_SHORT).show();
+
+        }
+        final Double mylatitude ,mylongitude;
+        final LatLng targuMures = new LatLng(46.55, 24.5667);
+        locationPos = new LatLng(46.55, 24.5667);
+        if(mylocation != null) {
+            mylatitude = mylocation.getLatitude();
+            mylongitude = mylocation.getLongitude();
+            final Task location = fusedLocationProviderClient.getLastLocation();
+            location.addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if(task.isSuccessful()){
+                        mylocation = (Location) task.getResult();
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(mylatitude, mylongitude)));
+                    }
+                }
+            });
+        }else{
+            mMap.addMarker(new MarkerOptions().position(targuMures).title("Marker in Targu Mures"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(targuMures, 12));
+        }
+    }
 }
