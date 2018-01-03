@@ -169,8 +169,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final Advertisement name = values.get(position);
         holder.txtTitle.setText(name.getTitle());
 
+        if(name.getDetail().length()>35){
+            holder.txtDetail.setText(name.getDetail().substring(0,40)+"...");
+        }else{
+            holder.txtDetail.setText(name.getDetail());
+        }
 
-        holder.txtDetail.setText(name.getDetail());
         List<String> photos = values.get(position).getPhoto();
         Log.d("GLIDE", "Glide elott");
         if(photos != null) {
