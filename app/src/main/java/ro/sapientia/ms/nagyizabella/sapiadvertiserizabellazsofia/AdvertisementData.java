@@ -28,9 +28,14 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
      * The Image view to advertisement's images
      */
     private ImageView image;
+    /**
+     * The text View to next advertiserment's image
+     */
     private TextView next;
+    /**
+     * The text View to previous advertiserment's image
+     */
     private TextView prev;
-
     /**
      * The text View to advertisement title
      */
@@ -39,21 +44,49 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
      * The text View to advertisement detail
      */
     private TextView detail;
-
-    //maps
-
+    /**
+     * The Image View to Profile Image
+     */
     private ImageView profileImage;
+    /**
+     * The text View to User Name
+     */
     private TextView user;
+    /**
+     * The text View to User Phone Numer
+     */
     private TextView phone;
+    /**
+     * The button to the select User Call
+     */
     private Button call;
-
+    /**
+     * The advertisement
+     */
     private Advertisement adv;
+    /**
+     * The cursor list when more images are picked
+     */
     private List<String> images;
-    private String phoneNumber; //for calling
-
+    /**
+     * The User Phone Numer for calling
+     */
+    private String phoneNumber;
+    /**
+     * The FirebaseAuth and AuthStateListener objects
+     */
     private FirebaseDatabase database;
+    /**
+     * The database reference object
+     */
     private DatabaseReference myRef;
 
+    /**
+     *In the method find view elements by id and add listener on the buttons
+     * Get database reference and firebase auth
+     * Display menu
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +96,11 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         menuItemSelected(navigationView);
 
-        //database
+        //firebase references
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
 
+        // Views-> Unsigned Id-s
         image = (ImageView) findViewById(R.id.idImageViewSemafor);
         next =(TextView) findViewById(R.id.next_image);
         prev =(TextView) findViewById(R.id.prev_image);
@@ -77,7 +111,7 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         user = (TextView) findViewById(R.id.creator);
         phone = (TextView) findViewById(R.id.phone_number);
         call = (Button) findViewById(R.id.bt_call);
-
+        //listeners
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         call.setOnClickListener(this);
@@ -94,14 +128,27 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         AdvertisementImages("");
     }
 
+
     private int imagePosition = 0;
+
+    /**
+     * This is a method  for advertiserments Image Views
+     * @param direction
+     */
     private void AdvertisementImages(String direction) {
+        /**
+         * Next advertiserment's image
+         */
         if(direction.equals("next")){
             imagePosition = imagePosition + 1;
             if(imagePosition == images.size()){
                 imagePosition = 0;
             }
-        }else{
+        }
+        /**
+         * Previous advertiserment's image
+         */
+        else{
             if(direction.equals("prev")){
                 imagePosition = imagePosition - 1;
                 if(imagePosition < 0){
@@ -116,6 +163,9 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * This is a method for the Actualizate Advertisement Datail
+     */
     private void AdvertisementDetail() {
         title.setText(adv.getTitle());
         detail.setText(adv.getDetail());
@@ -152,6 +202,10 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         //child(adv.getUserId()).child("firstName").getKey();
     }
 
+    /**
+     * This is a listener for the buttons
+     * @param v this is view element, which clicked
+     */
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -169,6 +223,9 @@ public class AdvertisementData extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * This is a method for the Creator calling
+     */
     private void callCreator() {
         if(phoneNumber.length() != 0){
             Intent callIntent =new Intent(Intent.ACTION_DIAL);

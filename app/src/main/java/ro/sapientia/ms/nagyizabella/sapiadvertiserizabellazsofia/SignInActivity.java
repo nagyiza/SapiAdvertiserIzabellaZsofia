@@ -24,34 +24,61 @@ import ro.sapientia.ms.nagyizabella.sapiadvertiserizabellazsofia.models.User;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener{
 
-
+    /**
+     * Tag for the logging
+     */
     private static final String LOG_TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    /**
+     * The database reference object
+     */
     private DatabaseReference mDatabase;
-    //the FirebaseAuth and AuthStateListener objects.
+    /**
+     * The FirebaseAuth and AuthStateListener objects
+     */
     private FirebaseAuth mAuth;
-
+    /**
+     * The edit text to user's Email
+     */
     private EditText mEmail;
+    /**
+     * The edit text to user's Password
+     */
     private EditText mPassword;
+    /**
+     * The button to the select SIGN IN
+     */
     private Button mSignInButton;
+    /**
+     * The button to the select Google Sign In
+     */
     private Button mGoogleButton;
-    private Button mFacebookButton;
-    private TextView mForgetPassword;
-
     private GoogleApiClient mGoogleApiClient;
 
+    /**
+     * The button to the select Facebook Sign In
+     */
+    private Button mFacebookButton;
+    /**
+     * The text view to the Forget Password
+     */
+    private TextView mForgetPassword;
 
-
+    /**
+     * In the method find view elements by id and add listener on the buttons
+     * Get database reference and firebase auth
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-
+        //firebase references
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        // Views
+        // Views-> Unsigned Id-s
         mEmail = (EditText) findViewById(R.id.et_email);
         mPassword = (EditText) findViewById(R.id.et_password);
         mSignInButton = (Button) findViewById(R.id.bt_signin);
@@ -77,6 +104,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /**
+     * This is a method for Sign IN
+     * If Email and Password exist in Database->Sign In
+     */
     private void signIn() {
         Log.d(LOG_TAG, "signIn");
 
@@ -115,6 +146,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /**
+     * For send Email to User
+     * @param email User Email
+     */
     private void SendEmail(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -136,6 +171,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+    /**
+     * This is a method for Sign UP
+     * If Email and Password does not exist in Database->Sign Up
+     */
     private void signUp() {
         Log.d(LOG_TAG, "signUp");
         if (!validateForm()) {
@@ -169,6 +208,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
+    /**
+     * This is a
+     * @param user User id&email
+     */
     private void onAuthSuccess(FirebaseUser user) {
         //String username = usernameFromEmail(user.getEmail());
         // Write new user
@@ -187,6 +230,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     //   }
     //}
 
+    /**
+     * In the method validate email and Password
+     * @return result
+     */
     private boolean validateForm() {
         boolean result = true;
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
@@ -206,12 +253,22 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         return result;
     }
 
+    /**
+     * This method write User Data
+     * Here is the child sructure
+     * @param userId User Id
+     * @param email User Email
+     */
     private void writeNewUser(String userId, String email) {
         User user = new User(email, "", "", "", "");
 
         mDatabase.child("users").child(userId).setValue(user);
     }
 
+    /**
+     * This is a listener for the buttons
+     * @param v this is view element, which clicked
+     */
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -231,6 +288,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /**
+     * This is a function for forget password Wiew
+     *
+     */
     private void ForgetPassword() {
         mForgetPassword.setVisibility(View.INVISIBLE);
         mPassword.setVisibility(View.INVISIBLE);
@@ -238,12 +299,17 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mSignInButton.setText("Send Email");
     }
 
+    /**
+     * This is a function for Google Sign In
+     */
     private void googleSignIn() {
         Intent signInIntent = new Intent(SignInActivity.this,GoogleSignInActivity.class);
         signInIntent.putExtra("type", "google");
         startActivity(signInIntent);
     }
-
+    /**
+     * This is a function for Facebook Sign In
+     */
     private void facebookSignIn() {
         //Intent signInIntent = new Intent(SignInActivity.this,GoogleSignInActivity.class);
         //signInIntent.putExtra("type", "facebook");
