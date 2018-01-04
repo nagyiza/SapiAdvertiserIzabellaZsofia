@@ -170,7 +170,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.txtTitle.setText(name.getTitle());
 
         if(name.getDetail().length()>35){
-            holder.txtDetail.setText(name.getDetail().substring(0,40)+"...");
+            holder.txtDetail.setText(name.getDetail().substring(0,35)+"...");
         }else{
             holder.txtDetail.setText(name.getDetail());
         }
