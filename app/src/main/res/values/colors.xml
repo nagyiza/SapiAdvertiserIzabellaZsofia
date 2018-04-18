@@ -19,5 +19,6 @@
     <color name="colorBase">#47D</color>
     <color name="colorSecund">#0000CD</color>
     <color name="colorHint">#87CEEB</color>
+    <color name="colorTransparent">#ffffffff</color>
 
 </resources>

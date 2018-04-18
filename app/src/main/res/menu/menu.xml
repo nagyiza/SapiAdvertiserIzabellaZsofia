@@ -10,19 +10,39 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
-            android:title="@string/menu_profile" />
+            android:title="Profil" />
         <item
             android:id="@+id/nav_alladvert"
             android:icon="@drawable/ic_menu_all_advertisement"
-            android:title="@string/menu_alladvert" />
+            android:title="Hirdetések" />
         <item
             android:id="@+id/nav_myadvert"
             android:icon="@drawable/ic_menu_all_advertisement"
-            android:title="@string/menu_myadvert" />
+            android:title="Saját hirdetések" />
+        <item
+            android:id="@+id/nav_esemenyek"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="Események" />
+        <item
+            android:id="@+id/nav_tanszekek"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="Tanszékek" />
+        <item
+            android:id="@+id/nav_bufe"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="Büfé kinálat" />
+        <item
+            android:id="@+id/nav_kantin"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="Kantin napi menü" />
+        <item
+            android:id="@+id/nav_opens"
+            android:icon="@drawable/ic_menu_all_advertisement"
+            android:title="Nyitvatartások" />
         <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/ic_power"
-            android:title="@string/menu_signout" />
+            android:title="Kilépés" />
     </group>
 
  <!--   <item android:title="Settings">

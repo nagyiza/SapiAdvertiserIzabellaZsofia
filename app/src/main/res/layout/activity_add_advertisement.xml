@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="18dp"
                 android:textSize="20sp"
-                android:hint="Title"
+                android:hint="@string/adver_title"
                 android:textColor="@color/colorBase"
                 android:textColorHint="@color/colorHint"
                 android:textAlignment="center"

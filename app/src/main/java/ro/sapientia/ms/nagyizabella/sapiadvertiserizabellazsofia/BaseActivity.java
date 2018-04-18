@@ -136,6 +136,32 @@ public class BaseActivity extends AppCompatActivity {
                         Toast.makeText(BaseActivity.this, "You are not sign in", Toast.LENGTH_LONG).show();
                     }
                 }
+                else if(id == R.id.nav_esemenyek){
+                    Intent intent = new Intent(BaseActivity.this, EsemenyekActivity.class);
+                    intent.putExtra("Type", "allAdvertisement");
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id == R.id.nav_tanszekek){
+                    Intent intent = new Intent(BaseActivity.this, TanszekListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id == R.id.nav_bufe){
+                    Intent intent = new Intent(BaseActivity.this, BufeListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id == R.id.nav_kantin){
+                    Intent intent = new Intent(BaseActivity.this, KantinActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id == R.id.nav_opens){
+                    Intent intent = new Intent(BaseActivity.this, OpenActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 assert drawer != null;
                 drawer.closeDrawer(GravityCompat.START);
